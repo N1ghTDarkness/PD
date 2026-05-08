@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Zkouškový simulátor - Zkouška 4.6.2025</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; --text: #202124; --blue-square: #007bff; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        #sidebar { width: 280px; background: #fff; border-right: 1px solid #dadce0; display: flex; flex-direction: column; padding: 20px; overflow-y: auto; }
+        .nav-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 20px; }
+        .nav-item { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #dadce0; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .nav-item.flagged { background: var(--blue-square) !important; color: white; border-color: var(--blue-square); }
+        .status-green { background: #e6f4ea; color: #1e8e3e; border-color: #ceead6; }
+        .status-orange { background: #fff4e5; color: #d97706; border-color: #ffe0b2; }
+        .status-red { background: #fce8e6; color: #d93025; border-color: #fad2cf; }
+
+        #main-content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .header-stats { position: sticky; top: -40px; background: var(--primary); color: white; padding: 20px; border-radius: 0 0 15px 15px; margin: -40px -40px 30px -40px; display: flex; justify-content: space-between; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .q-card { background: #fff; border-radius: 12px; padding: 30px; margin-bottom: 40px; border: 1px solid #dadce0; }
+        .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        .blue-sq-icon { width: 20px; height: 20px; background: var(--blue-square); display: inline-block; cursor: pointer; border-radius: 3px; opacity: 0.3; }
+        .blue-sq-icon.active { opacity: 1; }
+
+        .opt-label { display: flex; align-items: flex-start; padding: 15px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.1s; }
+        .opt-label:hover { border-color: var(--primary); background: #f8fbff; }
+        .opt-label input { margin-right: 15px; margin-top: 5px; transform: scale(1.2); }
+        
+        .correct { background: #e6f4ea !important; border-color: #34a853 !important; }
+        .wrong { background: #fce8e6 !important; border-color: #ea4335 !important; }
+        
+        .check-btn { width: 100%; padding: 15px; background: #2c3e50; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .points-feedback { margin-top: 15px; font-weight: bold; padding: 15px; border-radius: 8px; display: none; line-height: 1.5; }
+        .hint-box { margin-top: 10px; font-weight: normal; color: #555; font-style: italic; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 10px; }
+
+        #setup { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; color: white; }
+        .setup-card { background: #202124; padding: 40px; border-radius: 20px; max-width: 450px; width: 90%; text-align: center; border: 1px solid #3c4043; }
+    </style>
+</head>
+<body>
+
+<div id="setup">
+    <div class="setup-card">
+        <h2>PŘENOS DAT - ZKOUSKA 4.6.</h2>
+        <p>Tento test je vytvořen podle tvého nahraného souboru se zkouškou ze dne 4. června 2025.</p>
+        <div style="text-align:left; margin: 20px 0;">
+            <label><input type="checkbox" id="shufQ"> Náhodné pořadí úloh</label><br><br>
+            <label><input type="checkbox" id="shufA"> Náhodné pořadí odpovědí</label>
+        </div>
+        <button class="check-btn" onclick="start()">SPUSTIT TEST</button>
+    </div>
+</div>
+
+<div id="sidebar">
+    <h3>Navigace</h3>
+    <div id="navGrid" class="nav-grid"></div>
+</div>
+
+<div id="main-content">
+    <div class="header-stats">
+        <div id="prog">Zodpovězeno: 0 / 25</div>
+        <div id="score">Body: 0,00 / 0,00</div>
+    </div>
+    <div id="quiz"></div>
+</div>
+
+<script>
+const master = [
+    { id: 1, q: "Co znamená zkratka OFDM?", opts: ["Orthogonal Frequency Division Multiplexing", "Optical Free Division Multiplexing", "Orthogonal Free Division Multiplexing", "Orthogonal Frequency Duplex Multiplexing"], ans: [0], pts: 1.0, hint: "Jde o ortogonální frekvenční multiplex.", rationale: "Zkratka označuje techniku víceúrovňového přenosu pomocí ortogonálních subnosných [cite: 2478-2479]." },
+    { id: 2, q: "Co jsou to data podle zkouškového testu?", opts: ["Zprávy ve tvaru vhodném pro přenos, uložení do paměti nebo zpracování", "Zprávy ve tvaru vhodném pro kompresi a šifrování", "Zprávy ve tvaru vhodném pro přenos a zpracování", "Zprávy ve tvaru vhodném pro uložení do paměti"], ans: [0], pts: 1.0, hint: "Definice zahrnuje přenos, uložení i zpracování.", rationale: "Data jsou zprávy v podobě, která umožňuje jejich technické zpracování i archivaci [cite: 2488-2490]." },
+    { id: 3, q: "Na čem jsou založeny slovníkové metody komprese dat?", opts: ["Na shodnosti řetězce znaků", "Na četnosti výskytu jednotlivých symbolů", "Na prefixovém kódování", "Na napěťové deformaci"], ans: [0], pts: 1.0, hint: "LZ77 nebo LZW hledají opakující se vzory.", rationale: "Slovníkové metody nahrazují shodné řetězce odkazem do slovníku nebo historie [cite: 2512-2513]." },
+    { id: 4, q: "Co je to nerovnoměrný kód?", opts: ["Jednotlivým znakům jsou přiřazeny značky různých délek", "Jednotlivým znakům jsou přiřazeny značky stejných délek", "Značky jsou přiřazeny pouze číslům", "Znaky jsou nahrazeny náhodnými bity"], ans: [0], pts: 1.0, hint: "Například Morseova abeceda nebo Huffman.", rationale: "V nerovnoměrném kódu mají symboly různou délku (obvykle dle četnosti) [cite: 2518-2522]." },
+    { id: 5, q: "Jaká musí být minimální Hammingova vzdálenost d_min pro detekci 3 chyb?", opts: ["3", "4", "5", "6"], ans: [1], pts: 1.0, hint: "Vzorec je err_det = d_min - 1.", rationale: "Abychom detekovali n chyb, musí být d_min rovna n+1, tedy 3+1=4 [cite: 2528-2529]." },
+    { id: 6, q: "Jak je vytvořeno kódové slovo u Hammingova kódu?", opts: ["Pomocí kontrolní matice, jejíž sloupce jsou různé a nenulové", "Pomocí kontrolní matice, jejíž řádky jsou libovolné", "Vynásobením informačního slova kontrolní maticí", "Vynásobením zabezpečovacího slova generující maticí"], ans: [0], pts: 1.0, hint: "Sloupce H matice musí být unikátní.", rationale: "Konstrukce Hammingova kódu vyžaduje specifickou kontrolní matici s nenulovými unikátními sloupci [cite: 2536-2547]." },
+    { id: 7, q: "Co vyjadřuje telegrafní zkreslení?", opts: ["Časovou deformaci číslicového signálu", "Napěťovou deformaci číslicového signálu", "Proudovou deformaci číslicového signálu", "Časovou nestabilitu číslicového signálu"], ans: [0], pts: 1.0, hint: "Jde o posun hran signálu v čase.", rationale: "Telegrafní zkreslení je definováno jako deformace časových parametrů signálu [cite: 2565-2571]." },
+    { id: 8, q: "Čím se zabývá steganografie?", opts: ["Utajováním zpráv", "Šifrováním zpráv", "Dešifrováním zpráv", "Kompresí zpráv"], ans: [0], pts: 1.0, hint: "Snaží se skrýt samotnou existenci komunikace.", rationale: "Na rozdíl od šifrování se steganografie zaměřuje na skrytí zprávy v jiném nosiči [cite: 2585-2590]." },
+    { id: 9, q: "Jaké může být deterministické řízení přístupu ke společnému médiu?", opts: ["Centralizované (jedna stanice je řídící) a distribuované (není nutná řídící stanice)", "Centralizované a stochastické", "Pouze distribuované s náhodným přístupem", "Centralizované a asynchronní"], ans: [0], pts: 1.0, hint: "Buď vládne jedna stanice, nebo si předávají token.", rationale: "Deterministické systémy se dělí na ty s centrálním prvkem a ty s rozloženou inteligencí (např. Token Ring) [cite: 2607-2610]." },
+    { id: 10, q: "Která z těchto technologií NEPATŘÍ mezi bezdrátové ROZLEHLÉ sítě (nezahrnuje je)?", opts: ["GSM", "UMTS", "WLAN", "EDGE"], ans: [2], pts: 1.0, hint: "Jedna z nich je pouze lokální.", rationale: "WLAN (WiFi) je lokální síť, ostatní jsou mobilní rozlehlé sítě (WAN) [cite: 2653-2660]." },
+    { id: 11, q: "Co je to transpoziční šifrování?", opts: ["Změna pořadí jednotlivých znaků", "Náhrada znaků jinými znaky", "Komprese znaků", "Vypuštění některých znaků"], ans: [0], pts: 1.0, hint: "Znaky zůstávají stejné, jen se přeházejí.", rationale: "Transpozice mění pouze pozice prvků v textu, nikoliv jejich identitu [cite: 2667-2675]." },
+    { id: 12, q: "Jaká bude hodnota SNR (v dB), jestliže výkon signálu je 10 mW a výkon šumu 1 µW?", opts: ["10", "20", "30", "40"], ans: [3], pts: 1.0, hint: "Vzorec je 10 * log10(S/N).", rationale: "Poměr je 10 000. log10(10 000) je 4. 10 * 4 = 40 dB [cite: 2557-2559]." },
+    { id: 13, q: "Jaká bude kapacita kanálu, pokud je použit 4-stavový signál a šířka pásma je 8 kHz?", opts: ["16 kbps", "32 kbps", "64 kbps", "8 kbps"], ans: [1], pts: 1.0, hint: "Nyquistův vzorec: C = 2 * B * log2(V).", rationale: "2 * 8000 * log2(4) = 16000 * 2 = 32000 bps = 32 kbps [cite: 2688-2689]." },
+    { id: 14, q: "Který příkaz v systému Linux/Octave přidá právo pro spouštění vlastníkovi?", opts: ["chmod 666", "chmod +x", "chmod --executable", "chmod --x--x--x"], ans: [1], pts: 1.0, hint: "Zkratka pro 'execute'.", rationale: "Přepínač +x přidává souboru příznak spustitelnosti [cite: 2692-2695]." },
+    { id: 15, q: "Zabezpečení bezdrátové sítě pomocí WPA2 využívá blokovou šifru:", opts: ["DES", "AES", "RC4", "RSA"], ans: [1], pts: 1.0, hint: "Advanced Encryption Standard.", rationale: "Standard WPA2 je postaven na bezpečném šifrovacím algoritmu AES [cite: 2712-2713]." },
+    { id: 16, q: "Jak se nazývá signál, který nenese informaci a je modulován jiným signálem?", opts: ["Modulační", "Nosný", "Diskrétní", "Kódový"], ans: [1], pts: 1.0, hint: "Odborně 'carrier'.", rationale: "Nosný signál je základní vlna, na kterou se 'nasedlá' informace pomocí modulace[cite: 2501]." },
+    { id: 17, q: "Jaký je výsledek dešifrování zprávy 'NGHmhNROR' pomocí Caesarovy šifry s posunem o 3 znaky?", opts: ["KDEJEKOLO", "ABECEDAA", "POKLADDD", "VYSLEDEKK"], ans: [0], pts: 1.0, hint: "N - 3 pozice = K.", rationale: "Při posunu o tři písmena zpět v abecedě dostaneme slovo KDEJEKOLO[cite: 2574]." },
+    { id: 18, q: "Které kódy nemají rozdělenou informační a zabezpečovací část?", opts: ["Systematické", "Nesystematické", "Hammingovy", "CRC"], ans: [1], pts: 1.0, hint: "U systematických jsou bity jasně odděleny.", rationale: "U nesystematických kódů jsou informační bity rozptýleny v kódovém slově [cite: 2555-2556]." },
+    { id: 19, q: "Pro dekomprimaci LZ77 s parametry 00A11B33 je výsledkem:", opts: ["AABAAB", "ABCABC", "AAAAAA", "ABABAB"], ans: [0], pts: 1.0, hint: "Offset, délka, znak.", rationale: "Postupným zpracováním historie získáme řetězec AABAAB[cite: 2498]." },
+    { id: 20, q: "Který algoritmus se používá pro symetrické šifrování s klíčem 128 bitů v OpenSSL?", opts: ["RSA", "AES", "MD5", "SHA1"], ans: [1], pts: 1.0, hint: "Používá se v úloze 16.", rationale: "Úloha vyžadovala použití algoritmu AES se 128-bitovým klíčem[cite: 2577]." },
+    { id: 21, q: "Zkratka Wi-Fi znamená:", opts: ["Wireless Fidelity", "Wired Fiber", "Wireless Fiber", "Wired Fidelity"], ans: [0], pts: 1.0, hint: "Bezdrátová věrnost.", rationale: "Jde o komerční název standardu IEEE 802.11[cite: 2553]." },
+    { id: 22, q: "Jakou klávesu lze využít pro doplňování příkazů v terminálu?", opts: ["TAB", "Ctrl-C", "Alt-F1", "Ctrl-D"], ans: [0], pts: 1.0, hint: "Nachází se vlevo od klávesy Q.", rationale: "Klávesa Tab (tabulátor) slouží k automatickému doplňování názvů souborů a příkazů [cite: 2629-2632]." },
+    { id: 23, q: "Co charakterizuje nenáhodné signály?", opts: ["Hodnota je v libovolném okamžiku přesně známa, signál nenese žádnou zprávu", "Hodnota není v libovolném okamžiku známa", "Nenesou žádnou informaci, ale jsou náhodné", "Jsou to pouze sinusovky"], ans: [0], pts: 1.0, hint: "Slouží jako stavební kameny.", rationale: "Nenáhodné (deterministické) signály mají přesně definovaný průběh, ale samy o sobě nepřenášejí novou informaci [cite: 2638-2646]." },
+    { id: 24, q: "Datový měnič HDSL:", opts: ["Může používat 1, 2 nebo 3 páry a je standardizován", "Nepoužívá ozvěnu", "Je pouze pro simplexní provoz", "Není mezinárodně standardizován"], ans: [0], pts: 1.0, hint: "High-bit-rate Digital Subscriber Line.", rationale: "HDSL využívá více párů pro plně duplexní provoz a je standardizován [cite: 2699-2701]." },
+    { id: 25, q: "Určete 15-ti bitové kódové slovo Hammingova kódu pro bitovou posloupnost (129)D.", opts: ["000100000010110", "111100000000000", "000000000011111", "101010101010101"], ans: [0], pts: 1.0, hint: "Viz úloha 1 v testu.", rationale: "Podle kontrolní matice a vstupu 129 vychází kódové slovo 000100000010110 [cite: 2471-2475]." }
+];
+
+let data = [], curScore = 0, maxPosScore = 0, solved = 0;
+
+function start() {
+    const qS = document.getElementById('shufQ').checked, aS = document.getElementById('shufA').checked;
+    data = JSON.parse(JSON.stringify(master));
+    if(qS) data.sort(() => Math.random() - 0.5);
+    if(aS) data.forEach(d => {
+        let os = d.opts.map((o,i) => ({t:o, c:d.ans.includes(i)}));
+        os.sort(() => Math.random() - 0.5);
+        d.opts = os.map(o => o.t); d.ans = os.reduce((a,o,i) => {if(o.c) a.push(i); return a;}, []);
+    });
+    document.getElementById('setup').style.display = 'none';
+    renderNav(); renderQuiz();
+}
+
+function renderNav() {
+    const g = document.getElementById('navGrid');
+    data.forEach((_, i) => {
+        let d = document.createElement('div');
+        d.className = 'nav-item'; d.id = `nav-${i}`;
+        d.innerText = i + 1;
+        d.onclick = () => document.getElementById(`qcard-${i}`).scrollIntoView({behavior:'smooth'});
+        g.appendChild(d);
+    });
+}
+
+function renderQuiz() {
+    const c = document.getElementById('quiz');
+    data.forEach((d, i) => {
+        let card = document.createElement('div');
+        card.className = 'q-card'; card.id = `qcard-${i}`;
+        card.innerHTML = `
+            <div class="q-header">
+                <div class="q-id-box">
+                    <span class="blue-sq-icon" id="sq-${i}" onclick="toggleSquare(${i})"></span>
+                    <span id="num-display-${i}" style="font-weight:bold">${i+1}</span>
+                    <span style="color:#666; margin-left:10px">ID ${d.id}</span>
+                </div>
+                <div style="color:var(--primary); font-weight:bold">${d.pts} b</div>
+            </div>
+            <div style="margin-bottom:25px; line-height:1.4">${d.q}</div>
+            <div id="opts-${i}">
+                ${d.opts.map((o,oi) => `<label class="opt-label"><input type="radio" name="q${i}" value="${oi}"><span>${o}</span></label>`).join('')}
+            </div>
+            <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT ÚLOHU</button>
+            <div id="feedback-${i}" class="points-feedback"></div>
+        `;
+        c.appendChild(card);
+    });
+}
+
+function toggleSquare(i) {
+    const icon = document.getElementById(`sq-${i}`);
+    const navItem = document.getElementById(`nav-${i}`);
+    const numDisplay = document.getElementById(`num-display-${i}`);
+    icon.classList.toggle('active');
+    navItem.classList.toggle('flagged');
+    const isAct = icon.classList.contains('active');
+    navItem.innerText = isAct ? '?' : i + 1;
+    numDisplay.innerText = isAct ? '?' : i + 1;
+}
+
+function check(i) {
+    const d = data[i], block = document.getElementById(`opts-${i}`);
+    const sel = Array.from(block.querySelectorAll('input:checked')).map(n => parseInt(n.value));
+    if(!sel.length) return alert("Musíte vybrat odpověď!");
+
+    document.getElementById(`btn-${i}`).disabled = true;
+    block.querySelectorAll('input').forEach(inp => inp.disabled = true);
+
+    let gain = d.ans.includes(sel[0]) ? d.pts : 0;
+    curScore += gain; maxPosScore += d.pts; solved++;
+
+    const feed = document.getElementById(`feedback-${i}`);
+    feed.style.display = 'block';
+    feed.innerHTML = `Získáno ${gain.toFixed(2)} z ${d.pts} b. <div class="hint-box"><strong>Odůvodnění:</strong> ${d.rationale}</div>`;
+    feed.style.background = (gain >= d.pts) ? '#e6f4ea' : '#fce8e6';
+
+    let nav = document.getElementById(`nav-${i}`);
+    nav.classList.add(gain >= d.pts ? 'status-green' : 'status-red');
+
+    block.querySelectorAll('.opt-label').forEach((l, oi) => {
+        if(d.ans.includes(oi)) l.classList.add('correct');
+        else if(sel.includes(oi)) l.classList.add('wrong');
+    });
+
+    document.getElementById('prog').innerText = `Zodpovězeno: ${solved} / ${data.length}`;
+    document.getElementById('score').innerText = `Body: ${curScore.toFixed(2)} / ${maxPosScore.toFixed(2)}`;
+}
+</script>
+</body>
+</html>
