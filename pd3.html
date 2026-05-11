@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Zkouškový simulátor - Radiokomunikační systémy (V3)</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; --text: #202124; --blue-square: #007bff; --success: #34a853; --error: #d93025; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        #sidebar { width: 280px; background: #fff; border-right: 1px solid #dadce0; display: flex; flex-direction: column; padding: 15px; overflow-y: auto; }
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
+        .nav-item { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #dadce0; border-radius: 4px; cursor: pointer; font-size: 0.85em; font-weight: bold; transition: 0.2s; }
+        .nav-item.flagged { background: var(--blue-square) !important; color: white; }
+        
+        /* Barvy po odevzdání */
+        .status-green { background: #e6f4ea !important; color: var(--success) !important; border-color: var(--success) !important; }
+        .status-red { background: #fce8e6 !important; color: var(--error) !important; border-color: var(--error) !important; }
+
+        .external-links { border-top: 1px solid #eee; padding-top: 15px; margin-top: 5px; }
+        .side-link { display: block; text-decoration: none; color: #5f6368; padding: 10px; margin-bottom: 5px; border-radius: 8px; font-size: 0.85em; background: #f8f9fa; border: 1px solid transparent; }
+        .side-link:hover { background: #e8f0fe; border-color: var(--primary); color: var(--primary); }
+        .side-link strong { display: block; color: var(--text); font-size: 1em; }
+
+        /* Obsah */
+        #main-content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .header-stats { position: sticky; top: -40px; background: var(--primary); color: white; padding: 20px; border-radius: 0 0 15px 15px; margin: -40px -40px 30px -40px; display: flex; justify-content: space-between; z-index: 100; }
+        
+        .q-card { background: #fff; border-radius: 12px; padding: 30px; margin-bottom: 40px; border: 1px solid #dadce0; }
+        .opt-label { display: flex; align-items: flex-start; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 8px; cursor: pointer; }
+        .opt-label.correct { background: #e6f4ea !important; border-color: var(--success) !important; }
+        .opt-label.wrong { background: #fce8e6 !important; border-color: var(--error) !important; }
+        
+        .text-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 15px; font-size: 1em; box-sizing: border-box; }
+        .check-btn { width: 100%; padding: 14px; background: #2c3e50; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .action-btns { display: flex; gap: 10px; margin-top: 10px; }
+        .hint-btn { background: #607d8b; flex: 1; padding: 10px; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .proc-btn { background: #ef6c00; flex: 1; padding: 10px; color: white; border: none; border-radius: 6px; cursor: pointer; }
+
+        .hint-box, .proc-box { display: none; margin-top: 10px; padding: 12px; border-radius: 4px; font-size: 0.9em; }
+        .hint-box { background: #fff9c4; border-left: 4px solid #fbc02d; }
+        .proc-box { background: #fafafa; border: 2px dashed #ccc; text-align: center; }
+
+        #setup { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; color: white; }
+        .setup-card { background: #202124; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; }
+    </style>
+</head>
+<body>
+
+<div id="setup">
+    <div class="setup-card">
+        <h2>RS SIMULÁTOR V3</h2>
+        <p>31 úloh podle posledního zadání.</p>
+        <button class="check-btn" style="background:var(--primary)" onclick="start()">SPUSTIT TEST</button>
+    </div>
+</div>
+
+<div id="sidebar">
+    <h3>Navigace</h3>
+    <div id="navGrid" class="nav-grid"></div>
+    <div class="external-links">
+        <a href="https://n1ghtdarkness.github.io/VSB-IKT/" target="_blank" class="side-link"><strong>🏠 VSB-IKT</strong>Domovská stránka</a>
+        <a href="https://n1ghtdarkness.github.io/PD/" target="_blank" class="side-link"><strong>📊 Přenos Dat</strong>Materiály PD</a>
+    </div>
+</div>
+
+<div id="main-content">
+    <div class="header-stats">
+        <div id="prog">Zodpovězeno: 0 / 31</div>
+        <div id="score">Body: 0.00 / 0.00</div>
+    </div>
+    <div id="quiz"></div>
+    <button class="check-btn" style="background:var(--primary); margin-bottom: 100px;" onclick="finishAll()">ODEVZDAT VŠE</button>
+</div>
+
+<script>
+const master = [
+    { id: 1, q: "Steganografie se zabývá:", type: "choice", opts: ["přenosem zpráv", "utajováním zpráv", "kompresí zpráv", "dešifrováním zpráv", "šifrováním zpráv"], ans: [1], pts: 1.0, hint: "Steganografie schovává existenci zprávy samotné." },
+    { id: 2, q: "Topologie typu hvězda je:", type: "choice", opts: ["spolehlivá, využívá deterministický přístup", "jednoduchá, odolná na výpadek centrálního uzlu", "spolehlivá, lepší správa, odolná na výpadek linky, citlivá na výpadek centrálního uzlu", "jednoduchá, vhodná pro velký počet KZ"], ans: [2], pts: 1.0, hint: "Všechny linky vedou do jednoho bodu." },
+    { id: 3, q: "Lokální datové sítě (LAN):", type: "choice", opts: ["omezený dosah, omezená rychlost", "neomezený dosah, vysoká rychlost", "omezený dosah, vysoká přenosová rychlost"], ans: [2], pts: 1.0, hint: "Typicky budova nebo areál." },
+    { id: 4, q: "Zkomprimujte řetězec AOB00000C00B0000 metodou RLE Advanced:", type: "text", ans: ["AOB0002C00B0001"], pts: 2.0, hint: "Znak + počet opakování navíc (n-3)." },
+    { id: 5, q: "Kapacita kanálu: 4-stavový signál, šířka pásma 4 kHz?", type: "text", ans: ["16 kbps"], pts: 2.0, hint: "C = 2 * B * log2(L) = 2 * 4000 * 2" },
+    { id: 6, q: "Skrambler:", type: "choice", opts: ["mění sekvenci na náhodnou", "mění sekvenci na pseudonáhodnou, využívá posuvných registrů a sčítaček modulo 2", "nemění sekvenci"], ans: [1], pts: 1.0, hint: "Zajišťuje dostatek změn v signálu pro synchronizaci." },
+    { id: 7, q: "Minimální Hammingova vzdálenost d_min pro opravu 3 chyb?", type: "text", ans: ["7"], pts: 1.0, hint: "d_min = 2t + 1" },
+    { id: 8, q: "Doplňte: Nosný signál je signál, který ___ informaci a který je modulován signálem modulačním.", type: "text", ans: ["nenese", "neobsahuje"], pts: 2.0, hint: "Nosná vlna sama o sobě informaci nemá, dokud není modulována." },
+    { id: 9, q: "Zkratka ASK znamená:", type: "choice", opts: ["klíčování amplitudovým posunem", "klíčování modulačním posunem", "klíčování fázovým posunem"], ans: [0], pts: 1.0, hint: "Amplitude Shift Keying." },
+    { id: 10, q: "Telekomunikační okruh je definován rozhraním:", type: "choice", opts: ["I4", "I1", "R", "U"], ans: [1], pts: 1.0, hint: "Značení rozhraní v telekomunikacích." },
+    { id: 11, q: "Adaptivní Huffman: BAABB", type: "text", ans: ["BOA010101"], pts: 6.0, hint: "Sledujte strom po každém znaku.", proc: "huffman_baabb.png" },
+    { id: 12, q: "Informační zpětná vazba:", type: "choice", opts: ["vysílaný blok nemusí mít zabezpečení, protože se celý blok posílá zpět", "vysílaný blok musí mít zabezpečení", "posílá se pouze ACK"], ans: [0], pts: 1.0, hint: "Kontrola probíhá porovnáním originálu a vráceného bloku." },
+    { id: 13, q: "Asynchronní multiplexory:", type: "choice", opts: ["přidělují časové intervaly podle aktivity jednotlivých pomalých datových kanálů", "přidělují frekvence", "nepřidělují intervaly"], ans: [0], pts: 1.0, hint: "Statistický multiplex." },
+    { id: 14, q: "SNR: Výkon signálu 10mW, výkon šumu 0.1mW:", type: "text", ans: ["20 dB"], pts: 2.0, hint: "10 * log10(10 / 0.1) = 10 * log10(100)" },
+    { id: 15, q: "15-bit slovo B(x) pro (80)D, Hamming (15,11):", type: "text", ans: ["000111100010000"], pts: 5.0, hint: "80 binárně je 1010000.", proc: "hamming_80.png" },
+    { id: 16, q: "Způsob zabezpečení zpráv je možný:", type: "choice", opts: ["úpravou zprávy, změnou přenosové rychlosti a bezpečnostním kódováním", "úpravou abecedy", "změnou signálu"], ans: [0], pts: 1.0, hint: "Kombinace technických a softwarových opatření." },
+    { id: 17, q: "Doplňte název: ___ signál - ke změnám hodnot dochází v určitých časových okamžicích.", type: "text", ans: ["diskrétní", "digitální"], pts: 2.0, hint: "Opak spojitého signálu." },
+    { id: 18, q: "Caesarova šifra (posun 3), dešifrujte: NGHmhNROR", type: "text", ans: ["KDEjeDOMA"], pts: 2.0, hint: "Posuňte každé písmeno o 3 zpět v abecedě." },
+    { id: 19, q: "Doplňte: Zabezpečení Wi-Fi pomocí ___ WEP klíčů využívá šifrování.", type: "text", ans: ["statických"], pts: 2.0, hint: "WEP nepoužívá dynamickou obměnu jako WPA." },
+    { id: 20, q: "CRC kód: (37)H, G(x)=x^4+x+1:", type: "text", ans: ["001101111001"], pts: 5.0, hint: "37H = 0011 0111.", proc: "crc_37h.png" },
+    { id: 21, q: "CDMA demultiplex: 1 -1 2 1 2 -2 -1 -2 -2 2 -1 0 (kód 0111):", type: "text", ans: ["1 -1 1"], pts: 2.0, hint: "Skalární součin s (-1, 1, 1, 1).", proc: "cdma_calc.png" },
+    { id: 22, q: "Abeceda pro přenos dat je:", type: "choice", opts: ["soubor pravidel", "sestava převodních vztahů mezi znaky a odpovídajícími značkami", "signál"], ans: [1], pts: 1.0, hint: "Vztah mezi abstraktním symbolem a jeho fyzickou podobou." },
+    { id: 23, q: "OpenSSL (ARIA-256, heslo: radio): U2FsdGVkX183PDFYhZ5pb65VyFtLqrtdGlqATmNMFBNEeZn/HphgO7cg9260Q22I", type: "text", ans: ["vysledek_openssl"], pts: 3.0, hint: "Použijte parametry -aria-256-cbc -base64 -pbkdf2." },
+    { id: 24, q: "Informační zpětná vazba (definice):", type: "choice", opts: ["vysílaný blok nemusí obsahovat žádné zabezpečení, na přijímací straně se blok uloží a posílá zpět", "vysílaný blok musí obsahovat zabezpečení"], ans: [0], pts: 1.0, hint: "Celý blok putuje tam a zase zpátky." },
+    { id: 25, q: "Práva pro skupinu u -rw-r-----:", type: "choice", opts: ["čtení a zápis", "pouze čtení", "žádná práva"], ans: [1], pts: 2.0, hint: "Druhá trojice (r--)." },
+    { id: 26, q: "Příkaz pro výpis všech procesů v Linuxu:", type: "text", ans: ["ps -aux", "ps aux", "top"], pts: 2.0, hint: "Standardní systémový nástroj." },
+    { id: 27, q: "Zkratka FSK znamená:", type: "choice", opts: ["Frequency Shift Keying", "Faze Shift Keying", "Free Shift Keying"], ans: [0], pts: 2.0, hint: "Kmitočtové klíčování." },
+    { id: 28, q: "Příkaz pro jednotkovou matici 3x3 v Octave:", type: "text", ans: ["eye(3)", "A = eye(3)"], pts: 2.0, hint: "Název funkce zní jako 'eye' (oko)." },
+    { id: 29, q: "Doplňte: Kompresní poměr závisí na ___ původních dat.", type: "text", ans: ["nadbytečnosti", "redundanci"], pts: 1.0, hint: "Čím více se data opakují, tím lépe jdou zmenšit." },
+    { id: 30, q: "Zkratka Wi-Fi znamená:", type: "text", ans: ["Wireless Fidelity"], pts: 1.0, hint: "Bezdrátová věrnost." },
+    { id: 31, q: "LZW komprese: ABABCA:", type: "text", ans: ["AB256CA"], pts: 5.0, hint: "Index 256 je pro první opakování AB." }
+];
+
+let data = [], curScore = 0, maxPosScore = 0, solved = 0;
+
+function start() {
+    data = JSON.parse(JSON.stringify(master));
+    document.getElementById('setup').style.display = 'none';
+    renderNav(); renderQuiz();
+}
+
+function renderNav() {
+    const g = document.getElementById('navGrid'); g.innerHTML = "";
+    data.forEach((_, i) => {
+        let d = document.createElement('div'); d.className = 'nav-item'; d.id = `nav-${i}`;
+        d.innerText = i + 1; d.onclick = () => document.getElementById(`qcard-${i}`).scrollIntoView({behavior:'smooth'});
+        g.appendChild(d);
+    });
+}
+
+function renderQuiz() {
+    const c = document.getElementById('quiz'); c.innerHTML = "";
+    data.forEach((d, i) => {
+        let card = document.createElement('div'); card.className = 'q-card'; card.id = `qcard-${i}`;
+        let inputHtml = d.type === 'choice' 
+            ? d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="radio" name="q${i}" value="${oi}"><span>${o}</span></label>`).join('')
+            : `<input type="text" class="text-input" id="in-${i}" placeholder="Odpověď...">`;
+
+        card.innerHTML = `
+            <div style="display:flex; justify-content:space-between">
+                <div><span class="blue-sq-icon" id="sq-${i}" onclick="toggleSquare(${i})"></span> <strong>Úloha ${i+1}</strong></div>
+                <div style="color:var(--primary); font-weight:bold">${d.pts.toFixed(1)} b</div>
+            </div>
+            <p>${d.q}</p>
+            <div id="field-${i}">${inputHtml}</div>
+            <button class="check-btn" id="btn-${i}" onclick="check(${i})">Kontrola</button>
+            <div class="action-btns">
+                <button class="hint-btn" onclick="toggle('hint-${i}')">Nápověda</button>
+                ${d.proc ? `<button class="proc-btn" onclick="toggle('proc-${i}')">Postup</button>` : ''}
+            </div>
+            <div id="hint-${i}" class="hint-box">💡 ${d.hint}</div>
+            <div id="proc-${i}" class="proc-box">Postup (název souboru): ${d.proc}</div>
+            <div id="feed-${i}" style="margin-top:10px; font-weight:bold; display:none"></div>
+        `;
+        c.appendChild(card);
+    });
+}
+
+function toggle(id) { let e = document.getElementById(id); e.style.display = e.style.display === 'block' ? 'none' : 'block'; }
+function toggleSquare(i) { document.getElementById(`sq-${i}`).classList.toggle('active'); document.getElementById(`nav-${i}`).classList.toggle('flagged'); }
+
+function check(i) {
+    const d = data[i], btn = document.getElementById(`btn-${i}`);
+    if(btn.disabled) return;
+    
+    let isCorrect = false;
+    if(d.type === 'choice') {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if(!sel) return;
+        const selIdx = parseInt(sel.value);
+        isCorrect = d.ans.includes(selIdx);
+        d.opts.forEach((_, oi) => {
+            document.getElementById(`label-${i}-${oi}`).classList.add(d.ans.includes(oi) ? 'correct' : (selIdx === oi ? 'wrong' : 'none'));
+        });
+    } else {
+        const val = document.getElementById(`in-${i}`).value.trim().toLowerCase();
+        isCorrect = d.ans.some(a => val.includes(a.toLowerCase()));
+        document.getElementById(`in-${i}`).style.borderColor = isCorrect ? 'var(--success)' : 'var(--error)';
+    }
+
+    btn.disabled = true;
+    let gain = isCorrect ? d.pts : 0;
+    curScore += gain; maxPosScore += d.pts; solved++;
+    
+    const f = document.getElementById(`feed-${i}`);
+    f.style.display = 'block'; f.innerText = isCorrect ? "✓ Správně" : "✗ Chyba"; f.style.color = isCorrect ? 'var(--success)' : 'var(--error)';
+    document.getElementById(`nav-${i}`).classList.add(isCorrect ? 'status-green' : 'status-red');
+    
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById('prog').innerText = `Zodpovězeno: ${solved} / ${data.length}`;
+    document.getElementById('score').innerText = `Body: ${curScore.toFixed(2)} / ${maxPosScore.toFixed(2)}`;
+}
+
+function finishAll() {
+    data.forEach((_, i) => { if(!document.getElementById(`btn-${i}`).disabled) check(i); });
+}
+</script>
+</body>
+</html>

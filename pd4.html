@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Zkouškový simulátor - Radiokomunikační systémy</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; --text: #202124; --blue-square: #007bff; --success: #34a853; --error: #d93025; --warning: #f29900; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        
+        #sidebar { width: 280px; background: #fff; border-right: 1px solid #dadce0; display: flex; flex-direction: column; padding: 15px; overflow-y: auto; }
+        h3 { margin-top: 0; margin-bottom: 10px; font-size: 1.1em; color: #5f6368; }
+
+        .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; margin-bottom: 20px; }
+        .nav-item { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #dadce0; border-radius: 4px; cursor: pointer; font-size: 0.85em; font-weight: bold; transition: 0.2s; }
+        .nav-item.flagged { background: var(--blue-square) !important; color: white; border-color: var(--blue-square); }
+        
+        .status-green { background: #e6f4ea !important; color: var(--success) !important; border: 2px solid var(--success) !important; }
+        .status-red { background: #fce8e6 !important; color: var(--error) !important; border: 2px solid var(--error) !important; }
+
+        .external-links { border-top: 1px solid #eee; padding-top: 15px; margin-top: 5px; }
+        .side-link { display: block; text-decoration: none; color: #5f6368; padding: 10px; margin-bottom: 5px; border-radius: 8px; font-size: 0.85em; transition: 0.2s; background: #f8f9fa; border: 1px solid transparent; }
+        .side-link:hover { background: #e8f0fe; border-color: var(--primary); color: var(--primary); }
+        .side-link strong { display: block; color: var(--text); font-size: 1em; }
+
+        #main-content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .header-stats { position: sticky; top: -40px; background: var(--primary); color: white; padding: 20px; border-radius: 0 0 15px 15px; margin: -40px -40px 30px -40px; display: flex; justify-content: space-between; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .q-card { background: #fff; border-radius: 12px; padding: 30px; margin-bottom: 40px; border: 1px solid #dadce0; }
+        .q-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        
+        .blue-sq-icon { width: 18px; height: 18px; background: var(--blue-square); display: inline-block; cursor: pointer; border-radius: 3px; opacity: 0.2; vertical-align: middle; margin-right: 8px; }
+        .blue-sq-icon.active { opacity: 1; }
+
+        .opt-label { display: flex; align-items: flex-start; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: 0.1s; }
+        .opt-label:hover { border-color: var(--primary); background: #f8fbff; }
+        .opt-label.correct { background: #e6f4ea !important; border-color: var(--success) !important; }
+        .opt-label.wrong { background: #fce8e6 !important; border-color: var(--error) !important; }
+        
+        .text-input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 10px; margin-bottom: 15px; font-size: 1em; box-sizing: border-box; }
+        .text-input:disabled { background: #f1f3f4; font-weight: bold; }
+
+        .check-btn { width: 100%; padding: 14px; background: #2c3e50; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .action-btns { display: flex; gap: 10px; margin-top: 10px; }
+        .hint-btn { background: #607d8b; flex: 1; padding: 10px; color: white; border: none; border-radius: 6px; cursor: pointer; }
+        .proc-btn { background: #ef6c00; flex: 1; padding: 10px; color: white; border: none; border-radius: 6px; cursor: pointer; }
+
+        .points-feedback { margin-top: 15px; font-weight: bold; padding: 15px; border-radius: 8px; display: none; }
+        .hint-box { display: none; margin-top: 10px; padding: 12px; background: #fff9c4; border-left: 4px solid #fbc02d; font-size: 0.9em; }
+        .proc-box { display: none; margin-top: 10px; padding: 12px; background: #fafafa; border: 2px dashed #ccc; text-align: center; }
+
+        #setup { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; display: flex; align-items: center; justify-content: center; color: white; }
+        .setup-card { background: #202124; padding: 40px; border-radius: 20px; max-width: 450px; width: 90%; text-align: center; }
+    </style>
+</head>
+<body>
+
+<div id="setup">
+    <div class="setup-card">
+        <h2>RS SIMULÁTOR</h2>
+        <p>Všech 31 úloh podle tvých zadání.</p>
+        <button class="check-btn" style="background:var(--primary)" onclick="start()">SPUSTIT TEST</button>
+    </div>
+</div>
+
+<div id="sidebar">
+    <h3>Navigace</h3>
+    <div id="navGrid" class="nav-grid"></div>
+    <div class="external-links">
+        <h3>Projekty</h3>
+        <a href="https://n1ghtdarkness.github.io/VSB-IKT/" target="_blank" class="side-link"><strong>🏠 IKT Domů</strong>Materiály VŠB</a>
+        <a href="https://n1ghtdarkness.github.io/PD/" target="_blank" class="side-link"><strong>📊 Přenos Dat</strong>Materiály PD</a>
+    </div>
+</div>
+
+<div id="main-content">
+    <div class="header-stats">
+        <div id="prog">Zodpovězeno: 0 / 31</div>
+        <div id="score">Body: 0.00 / 0.00</div>
+    </div>
+    <div id="quiz"></div>
+    <button class="check-btn" style="background:var(--primary); margin-bottom: 80px;" onclick="finishAll()">ODEVZDAT VŠE</button>
+</div>
+
+<script>
+const master = [
+    { id: 1, q: "Cyklické kódování se vyznačuje jednoduchou realizací kodérů a dekodérů s použitím zpětnovazebních posuvných registrů.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 1.0, hint: "Využívá polynomiální dělení." },
+    { id: 2, q: "Minimální Hammingova vzdálenost d_min pro detekci 2 chyb?", type: "text", ans: ["3"], pts: 1.0, hint: "Vzorec: d_min = t + 1" },
+    { id: 3, q: "Hostitelské telekomunikační sítě:", type: "choice", opts: ["slouží pro připojení k internetu", "slouží primárně pro přenos dat", "slouží primárně pro přenos TV signálů a je možno jimi přenášet data"], ans: [2], pts: 1.0, hint: "Příkladem jsou sítě kabelové TV." },
+    { id: 4, q: "CDMA demultiplex: -1 -1 2 -1 1 2 -3 1 2 -1 1 2 (kód 1101):", type: "text", ans: ["0 1 1"], pts: 2.0, hint: "Kód 1101 = (1, 1, -1, 1). Proveďte skalární součin úseků s kódem." },
+    { id: 5, q: "Nesystematické kódy:", type: "choice", opts: ["nemají rozdělenou informační a zabezpečovací část, mají konst. Hammingovu váhu", "mají rozdělenou část", "mají konst. Hammingovu vzdálenost"], ans: [0], pts: 1.0, hint: "Informace není v bloku přímo čitelná." },
+    { id: 6, q: "Komprese dat slouží pro snížení množství dat.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 1.0, hint: "Redukce redundance." },
+    { id: 7, q: "Octave: Matice A 3x3 (1-9):", type: "text", ans: ["A = [1, 2, 3; 4, 5, 6; 7, 8, 9]", "A = [1 2 3; 4 5 6; 7 8 9]"], pts: 2.0, hint: "Nezapomeňte na 'A =' a středníky pro řádky." },
+    { id: 8, q: "RLE Advanced: AOB00000C00B0000:", type: "text", ans: ["AOB0002C00B0001"], pts: 2.0, hint: "Zapište počet opakování navíc (n-3)." },
+    { id: 9, q: "SNR: Výkon signálu 10mW, výkon šumu 0.01mW:", type: "text", ans: ["30 dB"], pts: 2.0, hint: "10 * log10(10 / 0.01)" },
+    { id: 10, q: "Množina všech zpráv:", type: "choice", opts: ["úplná soustava nenáhodných jevů", "úplná soustava náhodných jevů", "neúplná soustava"], ans: [1], pts: 1.0, hint: "Součet pravděpodobností je roven 1." },
+    { id: 11, q: "CRC: (39)H, G(x)=x^4+x+1. (12-ti bitové slovo):", type: "text", ans: ["001110010111"], pts: 5.0, hint: "39 hexadecimálně je 0011 1001." },
+    { id: 12, q: "Přístupová metoda ALOHA je:", type: "choice", opts: ["distribuovaná, řeší kolize", "stochastická, pokud chce stanice vysílat, tak vysílá", "stochastická, nejdříve naslouchá"], ans: [1], pts: 1.0, hint: "Primitivní metoda bez naslouchání (LBT)." },
+    { id: 13, q: "Kapacita kanálu: binární signál, šířka pásma 16 MHz?", type: "text", ans: ["32 Mbps"], pts: 2.0, hint: "C = 2 * B" },
+    { id: 14, q: "Rozhraní I2 je definováno:", type: "choice", opts: ["4 charakteristikami: mechanická, elektrická, funkční a protokolová", "3 charakteristikami", "2 charakteristikami"], ans: [0], pts: 1.0, hint: "Zahrnuje fyzickou i logickou vrstvu." },
+    { id: 15, q: "Datový signál v přeloženém pásmu nemá omezeno frekvenční pásmo pouze přenosovým médiem.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 2.0, hint: "Je omezen i modulačním zařízením." },
+    { id: 16, q: "Unipolární signál:", type: "choice", opts: ["nulová hodnota pro jeden symbol a dvě polarity pro další", "dvě různé hodnoty stejné polarity", "dvě různé polarity"], ans: [1], pts: 1.0, hint: "Např. 0V a +5V." },
+    { id: 17, q: "Multitasking umožňuje vykonávat v jednom okamžiku více než jednu činnost.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 2.0, hint: "Víceúlohový režim." },
+    { id: 18, q: "Co znamená zkratka VDSL?", type: "text", ans: ["Very High Bit Rate Digital Subscriber Line"], pts: 2.0, hint: "Vysokorychlostní digitální linka." },
+    { id: 19, q: "OpenSSL dešifrujte: U2FsdGVkX1+NyeOIfxzuTUT5VEOvlKW8lKxccz/N4BI= (AES-192, heslo: osobni):", type: "text", ans: ["heslo"], pts: 3.0, hint: "Použijte -aes-192-cbc, -base64 a -pbkdf2." },
+    { id: 20, q: "Steganografie se zabývá:", type: "text", ans: ["utajováním zpráv"], pts: 1.0, hint: "Skrývání existence zprávy." },
+    { id: 21, q: "Hash funkce zajišťuje:", type: "text", ans: ["integritu dat"], pts: 1.0, hint: "Ověření, zda data nebyla změněna." },
+    { id: 22, q: "Korekční kódy (vlastnost):", type: "choice", opts: ["nepotřebují zpětný kanál, chyba je opravena v přijímači", "potřebují zpětný kanál", "pouze detekují chybu"], ans: [0], pts: 1.0, hint: "Forward Error Correction." },
+    { id: 23, q: "LZ78 dekomprese: 0A0B2A2B:", type: "text", ans: ["ABBABB"], pts: 5.0, hint: "1=(0,A)=A, 2=(0,B)=B, 3=(2,A)=BA, 4=(2,B)=BB." },
+    { id: 24, q: "WPA2 využívá blokovou šifru AES.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 2.0, hint: "Standard pro zabezpečení Wi-Fi." },
+    { id: 25, q: "Adaptivní Huffman: CAAAB:", type: "text", ans: ["COA01100B"], pts: 6.0, hint: "Postupná aktualizace stromu." },
+    { id: 26, q: "Definice přenosu dat:", type: "text", ans: ["Spolehlivý přenos diskrétních zpráv o malé nadbytečnosti"], pts: 1.0, hint: "Cíl přenosové vrstvy." },
+    { id: 27, q: "Směšovač se používá při modulaci i demodulaci.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 2.0, hint: "Frekvenční posun." },
+    { id: 28, q: "Příkaz 'touch soubor.txt':", type: "text", ans: ["vytvoří nový soubor, nebo aktualizuje datum stávajícího souboru"], pts: 2.0, hint: "Práce se soubory v Unixu." },
+    { id: 29, q: "Přímá komunikace dvou stanic se nazývá Ad-hoc.", type: "choice", opts: ["Ano", "Ne"], ans: [0], pts: 1.0, hint: "Režim bez Access Pointu." },
+    { id: 30, q: "15-bit Hamming slovo pro (130)D:", type: "text", ans: ["000100000100111"], pts: 5.0, hint: "130 binárně je 10000010." },
+    { id: 31, q: "Transpozice 3x3: JAKSEDARI:", type: "text", ans: ["JSAAERKDI"], pts: 2.0, hint: "Zapište po řádcích, čtěte po sloupcích." }
+];
+
+let data = [], curScore = 0, maxPosScore = 0, solved = 0;
+
+function start() {
+    data = JSON.parse(JSON.stringify(master));
+    document.getElementById('setup').style.display = 'none';
+    renderNav(); renderQuiz();
+}
+
+function renderNav() {
+    const g = document.getElementById('navGrid'); g.innerHTML = "";
+    data.forEach((_, i) => {
+        let d = document.createElement('div'); d.className = 'nav-item'; d.id = `nav-${i}`;
+        d.innerText = i + 1; d.onclick = () => document.getElementById(`qcard-${i}`).scrollIntoView({behavior:'smooth'});
+        g.appendChild(d);
+    });
+}
+
+function renderQuiz() {
+    const c = document.getElementById('quiz'); c.innerHTML = "";
+    data.forEach((d, i) => {
+        let card = document.createElement('div'); card.className = 'q-card'; card.id = `qcard-${i}`;
+        let inputHtml = d.type === 'choice' 
+            ? d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="radio" name="q${i}" value="${oi}"><span>${o}</span></label>`).join('')
+            : `<input type="text" class="text-input" id="in-${i}" placeholder="Odpověď...">`;
+
+        card.innerHTML = `
+            <div class="q-header">
+                <div><span class="blue-sq-icon" id="sq-${i}" onclick="toggleSquare(${i})"></span> <strong>Úloha ${i+1}</strong></div>
+                <div style="color:var(--primary); font-weight:bold">${d.pts.toFixed(1)} b</div>
+            </div>
+            <div style="margin-bottom:20px">${d.q}</div>
+            <div id="field-${i}">${inputHtml}</div>
+            <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT</button>
+            <div class="action-btns">
+                <button class="hint-btn" onclick="toggle('hint-${i}')">Nápověda</button>
+                <div id="hint-${i}" class="hint-box">💡 ${d.hint}</div>
+            </div>
+            <div id="feed-${i}" class="points-feedback"></div>
+        `;
+        c.appendChild(card);
+    });
+}
+
+function toggle(id) { let e = document.getElementById(id); e.style.display = e.style.display === 'block' ? 'none' : 'block'; }
+function toggleSquare(i) { document.getElementById(`sq-${i}`).classList.toggle('active'); document.getElementById(`nav-${i}`).classList.toggle('flagged'); }
+
+function check(i) {
+    const d = data[i], btn = document.getElementById(`btn-${i}`);
+    if(btn.disabled) return;
+    
+    let isCorrect = false;
+    if(d.type === 'choice') {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if(!sel) return;
+        const selIdx = parseInt(sel.value);
+        isCorrect = d.ans.includes(selIdx);
+        d.opts.forEach((_, oi) => {
+            const lbl = document.getElementById(`label-${i}-${oi}`);
+            if(d.ans.includes(oi)) lbl.classList.add('correct');
+            else if(selIdx === oi) lbl.classList.add('wrong');
+        });
+    } else {
+        const val = document.getElementById(`in-${i}`).value.trim().toLowerCase().replace(/\s/g, '');
+        isCorrect = d.ans.some(a => a.toLowerCase().replace(/\s/g, '') === val);
+        document.getElementById(`in-${i}`).disabled = true;
+    }
+
+    btn.disabled = true;
+    let gain = isCorrect ? d.pts : 0;
+    curScore += gain; maxPosScore += d.pts; solved++;
+    
+    const f = document.getElementById(`feed-${i}`);
+    f.style.display = 'block'; f.innerText = isCorrect ? "✓ Správně" : "✗ Chyba"; f.style.color = isCorrect ? 'var(--success)' : 'var(--error)';
+    document.getElementById(`nav-${i}`).classList.add(isCorrect ? 'status-green' : 'status-red');
+    
+    updateStats();
+}
+
+function updateStats() {
+    document.getElementById('prog').innerText = `Zodpovězeno: ${solved} / ${data.length}`;
+    document.getElementById('score').innerText = `Body: ${curScore.toFixed(2)} / ${maxPosScore.toFixed(2)}`;
+}
+
+function finishAll() {
+    data.forEach((_, i) => { if(!document.getElementById(`btn-${i}`).disabled) check(i); });
+}
+</script>
+</body>
+</html>
