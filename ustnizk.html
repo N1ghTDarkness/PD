@@ -56,156 +56,156 @@ const topics = [
     {
         title: "1. Přenos dat – základní pojmy, datový řetězec",
         points: [
-            "Data jsou zprávy vyjádřené ve formě vhodné pro přenos, uložení nebo zpracování (typicky binární 0 a 1)[cite: 2].",
-            "Hierarchie DIKW popisuje cestu od dat (hrubá fakta) přes informace a znalosti až k moudrosti[cite: 3].",
-            "Datový řetězec se skládá z Koncového zařízení (DTE), Mezilehlého zařízení (DCE) a Informačního kanálu[cite: 4].",
-            "Rozhraní se dělí na <span class='formula'>I3</span> (SW/HW), <span class='formula'>I2</span> (fyzické - např. USB) a <span class='formula'>I1</span> (přenosový kanál)[cite: 5].",
-            "Zpráva je uspořádaná sekvence znaků vybraných z určité sady určená ke komunikaci[cite: 6]."
+            "Data jsou zprávy vyjádřené ve formě vhodné pro přenos, uložení nebo zpracování (typicky binární 0 a 1)",
+            "Hierarchie DIKW popisuje cestu od dat (hrubá fakta) přes informace a znalosti až k moudrosti",
+            "Datový řetězec se skládá z Koncového zařízení (DTE), Mezilehlého zařízení (DCE) a Informačního kanálu",
+            "Rozhraní se dělí na <span class='formula'>I3</span> (SW/HW), <span class='formula'>I2</span> (fyzické - např. USB) a <span class='formula'>I1</span> (přenosový kanál)",
+            "Zpráva je uspořádaná sekvence znaků vybraných z určité sady určená ke komunikaci"
         ],
-        tip: "Vysvětlete rozdíl mezi daty a informací – informace jsou data s významem v určitém kontextu[cite: 3]."
+        tip: "Vysvětlete rozdíl mezi daty a informací – informace jsou data s významem v určitém kontextu"
     },
     {
         title: "2. Informační vlastnosti zpráv",
         points: [
-            "Informační kanál je souhrn prostředků pro přenos, do kterého vstupuje šum[cite: 9].",
-            "Množství informace je funkcí pravděpodobnosti výskytu; méně pravděpodobný jev přináší více informace[cite: 10].",
-            "Základní jednotky jsou Shannon (log2), Hartley (log10) a Nat (loge)[cite: 11].",
-            "Informační entropie (H) vyjadřuje průměrné množství informace na jednu zprávu ze zdroje[cite: 12].",
-            "Vysoká entropie značí vysokou neurčitost (chaos), nízká naopak řád[cite: 13]."
+            "Informační kanál je souhrn prostředků pro přenos, do kterého vstupuje šum",
+            "Množství informace je funkcí pravděpodobnosti výskytu; méně pravděpodobný jev přináší více informace.",
+            "Základní jednotky jsou Shannon (log2), Hartley (log10) a Nat (loge).",
+            "Informační entropie (H) vyjadřuje průměrné množství informace na jednu zprávu ze zdroje.",
+            "Vysoká entropie značí vysokou neurčitost (chaos), nízká naopak řád."
         ],
-        tip: "Nezapomeňte, že součet pravděpodobností všech možných zpráv v poli musí být roven 1[cite: 14]."
+        tip: "Nezapomeňte, že součet pravděpodobností všech možných zpráv v poli musí být roven 1."
     },
     {
         title: "3. Abecedy a kódy",
         points: [
-            "Základní prvky tvoří Znak (písmeno), Abstraktní značka (binární kód) a Fyzická značka (impulz)[cite: 16].",
-            "Rovnoměrné kódy mají všechny značky stejně dlouhé (např. ASCII - 7 bitů, ITA2 - 5 bitů)[cite: 17].",
-            "Nerovnoměrné kódy (Huffman, Morse) mění délku podle četnosti výskytu znaku[cite: 18].",
-            "Unicode standard obsahuje přes 150 000 znaků a UTF-8 je jeho varianta s proměnnou délkou 1-4 bajty[cite: 20, 21].",
-            "Base64 kóduje binární data do sekvence 64 tisknutelných ASCII znaků[cite: 22]."
+            "Základní prvky tvoří Znak (písmeno), Abstraktní značka (binární kód) a Fyzická značka (impulz).",
+            "Rovnoměrné kódy mají všechny značky stejně dlouhé (např. ASCII - 7 bitů, ITA2 - 5 bitů).",
+            "Nerovnoměrné kódy (Huffman, Morse) mění délku podle četnosti výskytu znaku.",
+            "Unicode standard obsahuje přes 150 000 znaků a UTF-8 je jeho varianta s proměnnou délkou 1-4 bajty 21",
+            "Base64 kóduje binární data do sekvence 64 tisknutelných ASCII znaků."
         ],
-        tip: "Uveďte příklad řídicích znaků ASCII, jako jsou CR (Carriage Return) nebo LF (Line Feed)[cite: 19]."
+        tip: "Uveďte příklad řídicích znaků ASCII, jako jsou CR (Carriage Return) nebo LF (Line Feed)."
     },
     {
         title: "4. Zabezpečený přenos dat",
         points: [
-            "Zdroje chyb dělíme na externí (přeslechy, EMI, RFI) a interní (šum média)[cite: 24].",
-            "Telegrafní zkreslení je časová deformace signálu (individuální, asynchronní, synchronní)[cite: 25].",
-            "BER (Bit Error Rate) je poměr chybných bitů k celkovému počtu přenesených bitů[cite: 26].",
-            "ARQ metody využívají zpětnou vazbu s potvrzováním (ACK, NACK, Selective)[cite: 27].",
-            "FEC (Forward Error Correction) umožňuje opravu chyb přímo u příjemce bez opakování přenosu[cite: 28]."
+            "Zdroje chyb dělíme na externí (přeslechy, EMI, RFI) a interní (šum média).",
+            "Telegrafní zkreslení je časová deformace signálu (individuální, asynchronní, synchronní).",
+            "BER (Bit Error Rate) je poměr chybných bitů k celkovému počtu přenesených bitů.",
+            "ARQ metody využívají zpětnou vazbu s potvrzováním (ACK, NACK, Selective).",
+            "FEC (Forward Error Correction) umožňuje opravu chyb přímo u příjemce bez opakování přenosu."
         ],
-        tip: "Zlepšení BER lze dosáhnout silnějším signálem, robustnější modulací nebo kódováním[cite: 29]."
+        tip: "Zlepšení BER lze dosáhnout silnějším signálem, robustnější modulací nebo kódováním."
     },
     {
         title: "5. Bezpečnostní kódy",
         points: [
-            "Hammingova vzdálenost (dmin) určuje počet pozic, ve kterých se liší dvě kombinace; definuje schopnost kódu[cite: 31].",
-            "CRC (Cyklický součet) je založen na dělení polynomů v aritmetice MODULO 2[cite: 32].",
-            "Hammingův kód (7,4) je perfektní lineární kód schopný opravit jednu chybu (dmin=3)[cite: 34].",
-            "Reed-Mullerův kód je nesystematický a opravuje vícenásobné chyby pomocí majoritní logiky[cite: 35].",
-            "Kódová krychle vizualizuje vzdálenosti; čím jsou body dále, tím více chyb kód zvládne[cite: 36]."
+            "Hammingova vzdálenost (dmin) určuje počet pozic, ve kterých se liší dvě kombinace; definuje schopnost kódu.",
+            "CRC (Cyklický součet) je založen na dělení polynomů v aritmetice MODULO 2.",
+            "Hammingův kód (7,4) je perfektní lineární kód schopný opravit jednu chybu (dmin=3).",
+            "Reed-Mullerův kód je nesystematický a opravuje vícenásobné chyby pomocí majoritní logiky.",
+            "Kódová krychle vizualizuje vzdálenosti; čím jsou body dále, tím více chyb kód zvládne."
         ],
-        tip: "Při popisu CRC zmiňte roli generujícího polynomu G(x) při kódování i dekódování[cite: 33]."
+        tip: "Při popisu CRC zmiňte roli generujícího polynomu G(x) při kódování i dekódování."
     },
     {
         title: "6. Datové signály",
         points: [
-            "Signály mohou být elektrické, elektromagnetické, optické nebo akustické[cite: 38].",
-            "Popis probíhá v časové oblasti (průběh) nebo frekvenční oblasti (spektrum)[cite: 39].",
-            "Kapacita ideálního kanálu dle Nyquista: <span class='formula'>C = 2 * B * log2(V)</span>[cite: 41].",
-            "Shannon-Hartleyův zákon definuje limit reálného kanálu se šumem: <span class='formula'>C = B * log2(1 + S/N)</span>[cite: 42].",
-            "Signály dělíme na deterministické (známá hodnota v čase) a stochastické (náhodné/šum)[cite: 43]."
+            "Signály mohou být elektrické, elektromagnetické, optické nebo akustické.",
+            "Popis probíhá v časové oblasti (průběh) nebo frekvenční oblasti (spektrum).",
+            "Kapacita ideálního kanálu dle Nyquista: <span class='formula'>C = 2 * B * log2(V)</span>.",
+            "Shannon-Hartleyův zákon definuje limit reálného kanálu se šumem: <span class='formula'>C = B * log2(1 + S/N)</span>.",
+            "Signály dělíme na deterministické (známá hodnota v čase) a stochastické (náhodné/šum)."
         ],
-        tip: "Vysvětlete, že oříznutí vyšších harmonických složek vlivem šířky pásma deformuje výsledný tvar signálu[cite: 40]."
+        tip: "Vysvětlete, že oříznutí vyšších harmonických složek vlivem šířky pásma deformuje výsledný tvar signálu."
     },
     {
         title: "7. Digitální modulace a demodulace",
         points: [
-            "Modulace mění parametry nosného signálu (A, f, φ) podle modulačního signálu[cite: 45].",
-            "ASK kóduje informaci do změn amplitudy, FSK do změn frekvence (f0, f1)[cite: 46, 47].",
-            "PSK využívá změnu fáze; BPSK například posouvá fázi o 180° mezi stavy[cite: 48].",
-            "QAM kombinuje amplitudu i fázi a umožňuje přenést více bitů v jednom symbolu[cite: 49].",
-            "OFDM (ortogonální multiplex) je odolný proti vícecestnému šíření a rušení[cite: 50]."
+            "Modulace mění parametry nosného signálu (A, f, φ) podle modulačního signálu.",
+            "ASK kóduje informaci do změn amplitudy, FSK do změn frekvence (f0, f1) 47",
+            "PSK využívá změnu fáze; BPSK například posouvá fázi o 180° mezi stavy.",
+            "QAM kombinuje amplitudu i fázi a umožňuje přenést více bitů v jednom symbolu.",
+            "OFDM (ortogonální multiplex) je odolný proti vícecestnému šíření a rušení."
         ],
-        tip: "U QAM zdůrazněte vysokou spektrální účinnost, která je klíčová pro moderní standardy[cite: 49]."
+        tip: "U QAM zdůrazněte vysokou spektrální účinnost, která je klíčová pro moderní standardy."
     },
     {
         title: "8. Komprese dat",
         points: [
-            "Ztrátová komprese zahazuje méně důležitá data (audio/video) využitím nedokonalosti smyslů[cite: 52].",
-            "Bezeztrátová komprese umožňuje přesnou rekonstrukci (texty, programy)[cite: 53].",
-            "RLE (Run Length Encoding) nahrazuje sekvence stejných znaků dvojicí (znak, počet)[cite: 54].",
-            "Huffmanovo kódování využívá binární strom a přiřazuje kratší kódy častějším znakům[cite: 55].",
-            "Slovníkové metody (LZ77, LZW) vyhledávají opakující se řetězce; základ ZIPu a GIFu[cite: 56]."
+            "Ztrátová komprese zahazuje méně důležitá data (audio/video) využitím nedokonalosti smyslů.",
+            "Bezeztrátová komprese umožňuje přesnou rekonstrukci (texty, programy).",
+            "RLE (Run Length Encoding) nahrazuje sekvence stejných znaků dvojicí (znak, počet).",
+            "Huffmanovo kódování využívá binární strom a přiřazuje kratší kódy častějším znakům.",
+            "Slovníkové metody (LZ77, LZW) vyhledávají opakující se řetězce; základ ZIPu a GIFu."
         ],
-        tip: "Kompresní poměr udává efektivitu jako poměr velikosti nekomprimovaných a komprimovaných dat[cite: 57]."
+        tip: "Kompresní poměr udává efektivitu jako poměr velikosti nekomprimovaných a komprimovaných dat."
     },
     {
         title: "9. Šifrování dat",
         points: [
-            "Symetrické šifrování používá jeden sdílený klíč (např. AES, DES, Caesar)[cite: 59, 60].",
-            "Blokové šifry mohou pracovat v režimech ECB (jednoduchý) nebo bezpečnějších CBC, CFB[cite: 61].",
-            "Asymetrické šifrování (RSA, ECC) využívá veřejný a soukromý klíč[cite: 62].",
-            "Hashovací funkce (MD5, SHA1, SHA2) zajišťují integritu dat vytvořením unikátního otisku[cite: 63].",
-            "Steganografie je metoda skrytí existence zprávy uvnitř jiných dat (třeba v obrázku)[cite: 64]."
+            "Symetrické šifrování používá jeden sdílený klíč (např. AES, DES, Caesar) 60",
+            "Blokové šifry mohou pracovat v režimech ECB (jednoduchý) nebo bezpečnějších CBC, CFB.",
+            "Asymetrické šifrování (RSA, ECC) využívá veřejný a soukromý klíč.",
+            "Hashovací funkce (MD5, SHA1, SHA2) zajišťují integritu dat vytvořením unikátního otisku.",
+            "Steganografie je metoda skrytí existence zprávy uvnitř jiných dat (třeba v obrázku)."
         ],
-        tip: "Vysvětlete, že asymetrické šifry se často používají k bezpečné výměně symetrického klíče[cite: 62]."
+        tip: "Vysvětlete, že asymetrické šifry se často používají k bezpečné výměně symetrického klíče."
     },
     {
         title: "10. Datové modemy",
         points: [
-            "Modem slouží jako mezilehlé zařízení pro modulaci a demodulaci signálu[cite: 66].",
-            "Broadband technologie zahrnují xDSL (dvoulinka) a DOCSIS (koaxiální kabel)[cite: 67].",
-            "Optické sítě (FTTx) využívají jednotky ONT/OLT v pasivním (PON) nebo aktivním (AON) režimu[cite: 68].",
-            "Bezdrátové modemy pokrývají Wi-Fi (2.4/5/6 GHz), mobilní sítě (5G NR) a satelity (Starlink)[cite: 70].",
-            "Powerline modemy přenášejí data po silovém vedení 230V dle IEEE 1901[cite: 71]."
+            "Modem slouží jako mezilehlé zařízení pro modulaci a demodulaci signálu.",
+            "Broadband technologie zahrnují xDSL (dvoulinka) a DOCSIS (koaxiální kabel).",
+            "Optické sítě (FTTx) využívají jednotky ONT/OLT v pasivním (PON) nebo aktivním (AON) režimu.",
+            "Bezdrátové modemy pokrývají Wi-Fi (2.4/5/6 GHz), mobilní sítě (5G NR) a satelity (Starlink).",
+            "Powerline modemy přenášejí data po silovém vedení 230V dle IEEE 1901."
         ],
-        tip: "Standard DOCSIS 3.1 a 4.0 dnes umožňuje rychlosti v řádu jednotek až desítek Gbit/s[cite: 69]."
+        tip: "Standard DOCSIS 3.1 a 4.0 dnes umožňuje rychlosti v řádu jednotek až desítek Gbit/s."
     },
     {
         title: "11. Datové multiplexery",
         points: [
-            "FDM (Frekvenční) dělí pásmo na subkanály; TDM (Časový) střídá uživatele v čase[cite: 73, 74].",
-            "WDM (Vlnový) se používá v optice; varianty CWDM (16 kanálů) a DWDM (až 80 kanálů)[cite: 75].",
-            "CDM (Kódový) využívá unikátní kódy pro každého uživatele (spreading codes)[cite: 76].",
-            "SDM (Prostorový) využívá technologii MIMO pro souběžné vysílání více toků[cite: 77].",
-            "Multiplexer (MUX) signály spojuje, Demultiplexer (DEMUX) je v cíli opět rozděluje[cite: 78]."
+            "FDM (Frekvenční) dělí pásmo na subkanály; TDM (Časový) střídá uživatele v čase 74",
+            "WDM (Vlnový) se používá v optice; varianty CWDM (16 kanálů) a DWDM (až 80 kanálů).",
+            "CDM (Kódový) využívá unikátní kódy pro každého uživatele (spreading codes).",
+            "SDM (Prostorový) využívá technologii MIMO pro souběžné vysílání více toků.",
+            "Multiplexer (MUX) signály spojuje, Demultiplexer (DEMUX) je v cíli opět rozděluje."
         ],
-        tip: "TDM může být synchronní (pevné sloty) nebo asynchronní/statistický (dynamické přidělování)[cite: 74]."
+        tip: "TDM může být synchronní (pevné sloty) nebo asynchronní/statistický (dynamické přidělování)."
     },
     {
         title: "12. Koncová zařízení, sběrnice, senzory",
         points: [
-            "Koncová zařízení dělíme na zdroje (senzory) a spotřebitele (PC, aktuátory)[cite: 80].",
-            "Arduino je mikrokontrolér pro jednoduché úlohy, Raspberry Pi je SBC s plnohodnotným OS[cite: 81].",
-            "I2C je synchronní sběrnice (SDA, SCL); SPI je čtyřvodičová vysokorychlostní sběrnice[cite: 82, 83].",
-            "USB (Univerzální sběrnice) definuje mechanické, elektrické a protokolové vlastnosti[cite: 84].",
-            "Senzory převádějí fyzikální veličiny na el. signál, aktuátory (motory) naopak[cite: 85]."
+            "Koncová zařízení dělíme na zdroje (senzory) a spotřebitele (PC, aktuátory).",
+            "Arduino je mikrokontrolér pro jednoduché úlohy, Raspberry Pi je SBC s plnohodnotným OS.",
+            "I2C je synchronní sběrnice (SDA, SCL); SPI je čtyřvodičová vysokorychlostní sběrnice 83",
+            "USB (Univerzální sběrnice) definuje mechanické, elektrické a protokolové vlastnosti.",
+            "Senzory převádějí fyzikální veličiny na el. signál, aktuátory (motory) naopak."
         ],
-        tip: "U SPI zmiňte piny: SCLK (hodiny), MOSI (Master Out Slave In), MISO (Master In Slave Out) a SS[cite: 83]."
+        tip: "U SPI zmiňte piny: SCLK (hodiny), MOSI (Master Out Slave In), MISO (Master In Slave Out) a SS."
     },
     {
         title: "13. Bezdrátové datové přenosy",
         points: [
-            "Wi-Fi generace sahají od 802.11 až po Wi-Fi 7 (802.11be) s rychlostí až 46 Gbps[cite: 87].",
-            "Bluetooth (PAN) slouží pro osobní sítě na krátké vzdálenosti[cite: 88].",
-            "LPWAN technologie (LoRa, Sigfox) jsou určeny pro IoT s nízkou spotřebou a velkým dosahem[cite: 89].",
-            "Mobilní sítě 5G NR využívají pásma FR1 (sub-7GHz) a FR2 (milimetrové vlny)[cite: 90].",
-            "BAN (Body Area Network) je standard pro nositelná a implantovaná zařízení[cite: 92]."
+            "Wi-Fi generace sahají od 802.11 až po Wi-Fi 7 (802.11be) s rychlostí až 46 Gbps.",
+            "Bluetooth (PAN) slouží pro osobní sítě na krátké vzdálenosti.",
+            "LPWAN technologie (LoRa, Sigfox) jsou určeny pro IoT s nízkou spotřebou a velkým dosahem.",
+            "Mobilní sítě 5G NR využívají pásma FR1 (sub-7GHz) a FR2 (milimetrové vlny).",
+            "BAN (Body Area Network) je standard pro nositelná a implantovaná zařízení."
         ],
-        tip: "Starlink využívá konstelace na nízké oběžné dráze (LEO) a mezisatelitní laserové spoje ISL[cite: 91]."
+        tip: "Starlink využívá konstelace na nízké oběžné dráze (LEO) a mezisatelitní laserové spoje ISL."
     },
     {
         title: "14. Datové sítě",
         points: [
-            "Klasifikace dle dosahu: BAN, PAN, LAN (budova), MAN (město) a WAN (svět)[cite: 94].",
-            "Topologie LAN zahrnují sběrnici, hvězdu, kruh, strom a mesh[cite: 95].",
-            "Metody přístupu: ALOHA, CSMA/CD (Ethernet - detekce kolizí) a CSMA/CA (Wi-Fi)[cite: 96].",
-            "WAN sítě propojují velké oblasti pomocí MPLS nebo moderního SD-WAN[cite: 98].",
-            "SDN (Softwarově definované sítě) oddělují řídicí rovinu od datové roviny[cite: 99]."
+            "Klasifikace dle dosahu: BAN, PAN, LAN (budova), MAN (město) a WAN (svět).",
+            "Topologie LAN zahrnují sběrnici, hvězdu, kruh, strom a mesh.",
+            "Metody přístupu: ALOHA, CSMA/CD (Ethernet - detekce kolizí) a CSMA/CA (Wi-Fi).",
+            "WAN sítě propojují velké oblasti pomocí MPLS nebo moderního SD-WAN.",
+            "SDN (Softwarově definované sítě) oddělují řídicí rovinu od datové roviny."
         ],
-        tip: "U LAN topologií je dnes nejrozšířenější hvězda díky snadné správě a odolnosti vůči chybám uzlů[cite: 95]."
+        tip: "U LAN topologií je dnes nejrozšířenější hvězda díky snadné správě a odolnosti vůči chybám uzlů."
     }
 ];
 
