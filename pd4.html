@@ -152,11 +152,13 @@ function renderQuiz() {
             </div>
             <div style="margin-bottom:20px">${d.q}</div>
             <div id="field-${i}">${inputHtml}</div>
-            <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT ÚLOHU</button>
+            <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT</button>
             <div class="action-btns">
                 <button class="hint-btn" onclick="toggle('hint-${i}')">Nápověda / Postup</button>
+                ${d.proc ? `<button class="proc-btn" onclick="toggle('proc-${i}')">Obrázek</button>` : ''}
             </div>
             <div id="hint-${i}" class="hint-box">💡 ${d.hint}</div>
+            <div id="proc-${i}" class="proc-box">Postup výpočtu: <br><img src="${d.proc}" alt="Postup" style="max-width: 100%; height: auto; margin-top: 10px; border-radius: 8px;"></div>
             <div id="feed-${i}" class="points-feedback"></div>
         `;
         c.appendChild(card);
