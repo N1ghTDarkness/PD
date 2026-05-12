@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Skripta k PD Zkoušce</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; --text: #202124; --accent: #34a853; --warning: #ea4335; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; display: flex; height: 100vh; overflow: hidden; color: var(--text); }
+        
+        #sidebar { width: 320px; background: #fff; border-right: 1px solid #dadce0; display: flex; flex-direction: column; padding: 3px; }
+        .nav-grid { display: flex; flex-direction: column; gap: 4px; margin-top: 15px; }
+        .nav-item { padding: 8px 12px; border: 1px solid #dadce0; border-radius: 6px; cursor: pointer; font-size: 0.85em; transition: 0.2s; background: white; text-align: left; line-height: 1.3; }
+        .nav-item:hover { background: #f1f3f4; border-color: var(--primary); }
+        .nav-item.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        #main-content { flex: 1; padding: 40px; overflow-y: auto; scroll-behavior: smooth; }
+        .header { background: var(--primary); color: white; padding: 30px; border-radius: 0 0 15px 15px; margin: -40px -40px 30px -40px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        
+        .study-card { background: #fff; border-radius: 12px; padding: 35px; margin-bottom: 50px; border: 1px solid #dadce0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .study-card h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; font-size: 1.4em; }
+        
+        .key-points { list-style-type: none; padding: 0; }
+        .key-points li { margin-bottom: 12px; padding-left: 25px; position: relative; line-height: 1.5; }
+        .key-points li::before { content: '•'; color: var(--accent); font-weight: bold; font-size: 1.5em; position: absolute; left: 0; top: -5px; }
+        
+        .expert-tip { background: #e8f0fe; border-left: 5px solid var(--primary); padding: 15px; margin-top: 20px; border-radius: 4px; font-size: 0.95em; }
+        .formula { background: #f1f3f4; padding: 3px 8px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; color: #c62828; font-weight: bold; }
+        .category-label { font-size: 0.7em; text-transform: uppercase; color: #70757a; font-weight: bold; margin-bottom: 15px; display: block; }
+        
+        .home-link { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div id="sidebar">
+    
+    <h3>Okruhy otázek</h3>
+    <div id="navGrid" class="nav-grid"></div>
+    <div class="external-links">
+        <h3>Projekty</h3>
+        <a href="https://n1ghtdarkness.github.io/VSB-IKT/"  class="side-link"><strong>🏠 VSB-IKT</strong>Materiály VŠB</a><br>
+        <a href="https://n1ghtdarkness.github.io/PD/"  class="side-link"><strong>📊 Přenos Dat</strong>Materiály PD</a>
+    </div>
+</div>
+
+<div id="main-content">
+    <div class="header">
+        <h1>Skripta pro ústní zkoušku 2026</h1>
+        <p>Zpracováno podle dokumentu pd_ustni.docx </p>
+    </div>
+    <div id="content-area"></div>
+</div>
+
+<script>
+const topics = [
+    {
+        title: "1. Přenos dat – základní pojmy, datový řetězec",
+        points: [
+            "Data jsou zprávy vyjádřené ve formě vhodné pro přenos, uložení nebo zpracování (typicky binární 0 a 1)[cite: 2].",
+            "Hierarchie DIKW popisuje cestu od dat (hrubá fakta) přes informace a znalosti až k moudrosti[cite: 3].",
+            "Datový řetězec se skládá z Koncového zařízení (DTE), Mezilehlého zařízení (DCE) a Informačního kanálu[cite: 4].",
+            "Rozhraní se dělí na <span class='formula'>I3</span> (SW/HW), <span class='formula'>I2</span> (fyzické - např. USB) a <span class='formula'>I1</span> (přenosový kanál)[cite: 5].",
+            "Zpráva je uspořádaná sekvence znaků vybraných z určité sady určená ke komunikaci[cite: 6]."
+        ],
+        tip: "Vysvětlete rozdíl mezi daty a informací – informace jsou data s významem v určitém kontextu[cite: 3]."
+    },
+    {
+        title: "2. Informační vlastnosti zpráv",
+        points: [
+            "Informační kanál je souhrn prostředků pro přenos, do kterého vstupuje šum[cite: 9].",
+            "Množství informace je funkcí pravděpodobnosti výskytu; méně pravděpodobný jev přináší více informace[cite: 10].",
+            "Základní jednotky jsou Shannon (log2), Hartley (log10) a Nat (loge)[cite: 11].",
+            "Informační entropie (H) vyjadřuje průměrné množství informace na jednu zprávu ze zdroje[cite: 12].",
+            "Vysoká entropie značí vysokou neurčitost (chaos), nízká naopak řád[cite: 13]."
+        ],
+        tip: "Nezapomeňte, že součet pravděpodobností všech možných zpráv v poli musí být roven 1[cite: 14]."
+    },
+    {
+        title: "3. Abecedy a kódy",
+        points: [
+            "Základní prvky tvoří Znak (písmeno), Abstraktní značka (binární kód) a Fyzická značka (impulz)[cite: 16].",
+            "Rovnoměrné kódy mají všechny značky stejně dlouhé (např. ASCII - 7 bitů, ITA2 - 5 bitů)[cite: 17].",
+            "Nerovnoměrné kódy (Huffman, Morse) mění délku podle četnosti výskytu znaku[cite: 18].",
+            "Unicode standard obsahuje přes 150 000 znaků a UTF-8 je jeho varianta s proměnnou délkou 1-4 bajty[cite: 20, 21].",
+            "Base64 kóduje binární data do sekvence 64 tisknutelných ASCII znaků[cite: 22]."
+        ],
+        tip: "Uveďte příklad řídicích znaků ASCII, jako jsou CR (Carriage Return) nebo LF (Line Feed)[cite: 19]."
+    },
+    {
+        title: "4. Zabezpečený přenos dat",
+        points: [
+            "Zdroje chyb dělíme na externí (přeslechy, EMI, RFI) a interní (šum média)[cite: 24].",
+            "Telegrafní zkreslení je časová deformace signálu (individuální, asynchronní, synchronní)[cite: 25].",
+            "BER (Bit Error Rate) je poměr chybných bitů k celkovému počtu přenesených bitů[cite: 26].",
+            "ARQ metody využívají zpětnou vazbu s potvrzováním (ACK, NACK, Selective)[cite: 27].",
+            "FEC (Forward Error Correction) umožňuje opravu chyb přímo u příjemce bez opakování přenosu[cite: 28]."
+        ],
+        tip: "Zlepšení BER lze dosáhnout silnějším signálem, robustnější modulací nebo kódováním[cite: 29]."
+    },
+    {
+        title: "5. Bezpečnostní kódy",
+        points: [
+            "Hammingova vzdálenost (dmin) určuje počet pozic, ve kterých se liší dvě kombinace; definuje schopnost kódu[cite: 31].",
+            "CRC (Cyklický součet) je založen na dělení polynomů v aritmetice MODULO 2[cite: 32].",
+            "Hammingův kód (7,4) je perfektní lineární kód schopný opravit jednu chybu (dmin=3)[cite: 34].",
+            "Reed-Mullerův kód je nesystematický a opravuje vícenásobné chyby pomocí majoritní logiky[cite: 35].",
+            "Kódová krychle vizualizuje vzdálenosti; čím jsou body dále, tím více chyb kód zvládne[cite: 36]."
+        ],
+        tip: "Při popisu CRC zmiňte roli generujícího polynomu G(x) při kódování i dekódování[cite: 33]."
+    },
+    {
+        title: "6. Datové signály",
+        points: [
+            "Signály mohou být elektrické, elektromagnetické, optické nebo akustické[cite: 38].",
+            "Popis probíhá v časové oblasti (průběh) nebo frekvenční oblasti (spektrum)[cite: 39].",
+            "Kapacita ideálního kanálu dle Nyquista: <span class='formula'>C = 2 * B * log2(V)</span>[cite: 41].",
+            "Shannon-Hartleyův zákon definuje limit reálného kanálu se šumem: <span class='formula'>C = B * log2(1 + S/N)</span>[cite: 42].",
+            "Signály dělíme na deterministické (známá hodnota v čase) a stochastické (náhodné/šum)[cite: 43]."
+        ],
+        tip: "Vysvětlete, že oříznutí vyšších harmonických složek vlivem šířky pásma deformuje výsledný tvar signálu[cite: 40]."
+    },
+    {
+        title: "7. Digitální modulace a demodulace",
+        points: [
+            "Modulace mění parametry nosného signálu (A, f, φ) podle modulačního signálu[cite: 45].",
+            "ASK kóduje informaci do změn amplitudy, FSK do změn frekvence (f0, f1)[cite: 46, 47].",
+            "PSK využívá změnu fáze; BPSK například posouvá fázi o 180° mezi stavy[cite: 48].",
+            "QAM kombinuje amplitudu i fázi a umožňuje přenést více bitů v jednom symbolu[cite: 49].",
+            "OFDM (ortogonální multiplex) je odolný proti vícecestnému šíření a rušení[cite: 50]."
+        ],
+        tip: "U QAM zdůrazněte vysokou spektrální účinnost, která je klíčová pro moderní standardy[cite: 49]."
+    },
+    {
+        title: "8. Komprese dat",
+        points: [
+            "Ztrátová komprese zahazuje méně důležitá data (audio/video) využitím nedokonalosti smyslů[cite: 52].",
+            "Bezeztrátová komprese umožňuje přesnou rekonstrukci (texty, programy)[cite: 53].",
+            "RLE (Run Length Encoding) nahrazuje sekvence stejných znaků dvojicí (znak, počet)[cite: 54].",
+            "Huffmanovo kódování využívá binární strom a přiřazuje kratší kódy častějším znakům[cite: 55].",
+            "Slovníkové metody (LZ77, LZW) vyhledávají opakující se řetězce; základ ZIPu a GIFu[cite: 56]."
+        ],
+        tip: "Kompresní poměr udává efektivitu jako poměr velikosti nekomprimovaných a komprimovaných dat[cite: 57]."
+    },
+    {
+        title: "9. Šifrování dat",
+        points: [
+            "Symetrické šifrování používá jeden sdílený klíč (např. AES, DES, Caesar)[cite: 59, 60].",
+            "Blokové šifry mohou pracovat v režimech ECB (jednoduchý) nebo bezpečnějších CBC, CFB[cite: 61].",
+            "Asymetrické šifrování (RSA, ECC) využívá veřejný a soukromý klíč[cite: 62].",
+            "Hashovací funkce (MD5, SHA1, SHA2) zajišťují integritu dat vytvořením unikátního otisku[cite: 63].",
+            "Steganografie je metoda skrytí existence zprávy uvnitř jiných dat (třeba v obrázku)[cite: 64]."
+        ],
+        tip: "Vysvětlete, že asymetrické šifry se často používají k bezpečné výměně symetrického klíče[cite: 62]."
+    },
+    {
+        title: "10. Datové modemy",
+        points: [
+            "Modem slouží jako mezilehlé zařízení pro modulaci a demodulaci signálu[cite: 66].",
+            "Broadband technologie zahrnují xDSL (dvoulinka) a DOCSIS (koaxiální kabel)[cite: 67].",
+            "Optické sítě (FTTx) využívají jednotky ONT/OLT v pasivním (PON) nebo aktivním (AON) režimu[cite: 68].",
+            "Bezdrátové modemy pokrývají Wi-Fi (2.4/5/6 GHz), mobilní sítě (5G NR) a satelity (Starlink)[cite: 70].",
+            "Powerline modemy přenášejí data po silovém vedení 230V dle IEEE 1901[cite: 71]."
+        ],
+        tip: "Standard DOCSIS 3.1 a 4.0 dnes umožňuje rychlosti v řádu jednotek až desítek Gbit/s[cite: 69]."
+    },
+    {
+        title: "11. Datové multiplexery",
+        points: [
+            "FDM (Frekvenční) dělí pásmo na subkanály; TDM (Časový) střídá uživatele v čase[cite: 73, 74].",
+            "WDM (Vlnový) se používá v optice; varianty CWDM (16 kanálů) a DWDM (až 80 kanálů)[cite: 75].",
+            "CDM (Kódový) využívá unikátní kódy pro každého uživatele (spreading codes)[cite: 76].",
+            "SDM (Prostorový) využívá technologii MIMO pro souběžné vysílání více toků[cite: 77].",
+            "Multiplexer (MUX) signály spojuje, Demultiplexer (DEMUX) je v cíli opět rozděluje[cite: 78]."
+        ],
+        tip: "TDM může být synchronní (pevné sloty) nebo asynchronní/statistický (dynamické přidělování)[cite: 74]."
+    },
+    {
+        title: "12. Koncová zařízení, sběrnice, senzory",
+        points: [
+            "Koncová zařízení dělíme na zdroje (senzory) a spotřebitele (PC, aktuátory)[cite: 80].",
+            "Arduino je mikrokontrolér pro jednoduché úlohy, Raspberry Pi je SBC s plnohodnotným OS[cite: 81].",
+            "I2C je synchronní sběrnice (SDA, SCL); SPI je čtyřvodičová vysokorychlostní sběrnice[cite: 82, 83].",
+            "USB (Univerzální sběrnice) definuje mechanické, elektrické a protokolové vlastnosti[cite: 84].",
+            "Senzory převádějí fyzikální veličiny na el. signál, aktuátory (motory) naopak[cite: 85]."
+        ],
+        tip: "U SPI zmiňte piny: SCLK (hodiny), MOSI (Master Out Slave In), MISO (Master In Slave Out) a SS[cite: 83]."
+    },
+    {
+        title: "13. Bezdrátové datové přenosy",
+        points: [
+            "Wi-Fi generace sahají od 802.11 až po Wi-Fi 7 (802.11be) s rychlostí až 46 Gbps[cite: 87].",
+            "Bluetooth (PAN) slouží pro osobní sítě na krátké vzdálenosti[cite: 88].",
+            "LPWAN technologie (LoRa, Sigfox) jsou určeny pro IoT s nízkou spotřebou a velkým dosahem[cite: 89].",
+            "Mobilní sítě 5G NR využívají pásma FR1 (sub-7GHz) a FR2 (milimetrové vlny)[cite: 90].",
+            "BAN (Body Area Network) je standard pro nositelná a implantovaná zařízení[cite: 92]."
+        ],
+        tip: "Starlink využívá konstelace na nízké oběžné dráze (LEO) a mezisatelitní laserové spoje ISL[cite: 91]."
+    },
+    {
+        title: "14. Datové sítě",
+        points: [
+            "Klasifikace dle dosahu: BAN, PAN, LAN (budova), MAN (město) a WAN (svět)[cite: 94].",
+            "Topologie LAN zahrnují sběrnici, hvězdu, kruh, strom a mesh[cite: 95].",
+            "Metody přístupu: ALOHA, CSMA/CD (Ethernet - detekce kolizí) a CSMA/CA (Wi-Fi)[cite: 96].",
+            "WAN sítě propojují velké oblasti pomocí MPLS nebo moderního SD-WAN[cite: 98].",
+            "SDN (Softwarově definované sítě) oddělují řídicí rovinu od datové roviny[cite: 99]."
+        ],
+        tip: "U LAN topologií je dnes nejrozšířenější hvězda díky snadné správě a odolnosti vůči chybám uzlů[cite: 95]."
+    }
+];
+
+function init() {
+    const nav = document.getElementById('navGrid');
+    const area = document.getElementById('content-area');
+
+    topics.forEach((t, i) => {
+        let btn = document.createElement('div');
+        btn.className = 'nav-item';
+        btn.id = `nav-${i}`;
+        btn.innerText = t.title;
+        btn.onclick = () => scrollToTopic(i);
+        nav.appendChild(btn);
+
+        let card = document.createElement('div');
+        card.className = 'study-card';
+        card.id = `topic-${i}`;
+        card.innerHTML = `
+            <span class="category-label">Zkušební okruh ${i+1}</span>
+            <h2>${t.title}</h2>
+            <ul class="key-points">
+                ${t.points.map(p => `<li>${p}</li>`).join('')}
+            </ul>
+            <div class="expert-tip">
+                <strong>💡 Tip pro ústní část:</strong> ${t.tip}
+            </div>
+        `;
+        area.appendChild(card);
+    });
+
+    const mainContent = document.getElementById('main-content');
+    mainContent.onscroll = () => {
+        let current = "";
+        topics.forEach((_, i) => {
+            const el = document.getElementById(`topic-${i}`);
+            if (el.offsetTop - 100 <= mainContent.scrollTop) {
+                current = i;
+            }
+        });
+        
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if (current !== "") {
+            document.getElementById(`nav-${current}`).classList.add('active');
+        }
+    };
+}
+
+function scrollToTopic(i) {
+    document.getElementById(`topic-${i}`).scrollIntoView({behavior: 'smooth'});
+}
+
+init();
+</script>
+
+</body>
+</html>
