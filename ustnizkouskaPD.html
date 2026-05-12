@@ -38,7 +38,7 @@
 <div id="main-content">
     <div class="header">
         <h1>Skripta pro ústní zkoušku</h1>
-        <p>Zpracováno podle seznamu otázek a testových podkladů [cite: 6, 187, 502, 661, 827, 1002, 1231, 1821, 1997]</p>
+        <p>Zpracováno podle seznamu otázek a testových podkladů </p>
     </div>
     <div id="content-area"></div>
 </div>
@@ -48,142 +48,142 @@ const topics = [
     {
         title: "1. Datový řetězec pro přenos dat – základní pojmy",
         points: [
-            "Datový řetězec popisuje cestu zprávy od zdroje (vysílač) k příjemci (spotřebitel) skrze přenosový systém[cite: 93].",
-            "Skládá se z koncových zařízení (např. PC, počítač), mezilehlých zařízení (např. modem) a informačního kanálu[cite: 158, 159].",
-            "Informační kanál představuje souhrn technických prostředků umožňujících přenos zprávy na dálku[cite: 94, 159].",
-            "Koncová zařízení (DTE) data generují nebo zpracovávají, zatímco mezilehlá (DCE) je přizpůsobují kanálu[cite: 148, 149].",
-            "Zásadním prvkem je rozhraní (interface), které definuje mechanické a elektrické parametry propojení v řetězci[cite: 159]."
+            "Datový řetězec popisuje cestu zprávy od zdroje (vysílač) k příjemci (spotřebitel) skrze přenosový systém",
+            "Skládá se z koncových zařízení (např. PC, počítač), mezilehlých zařízení (např. modem) a informačního kanálu .",
+            "Informační kanál představuje souhrn technických prostředků umožňujících přenos zprávy na dálku.",
+            "Koncová zařízení (DTE) data generují nebo zpracovávají, zatímco mezilehlá (DCE) je přizpůsobují kanálu .",
+            "Zásadním prvkem je rozhraní (interface), které definuje mechanické a elektrické parametry propojení v řetězci."
         ],
-        tip: "Vysvětlete hierarchii: Data -> Informace -> Znalost -> Moudrost jako základní stavební kameny přenosu[cite: 83, 81, 79, 77]."
+        tip: "Vysvětlete hierarchii: Data -> Informace -> Znalost -> Moudrost jako základní stavební kameny přenosu."
     },
     {
         title: "2. Informační vlastnosti zpráv",
         points: [
-            "Míra informace ve zprávě je funkcí její pravděpodobnosti výskytu; čím je jev méně pravděpodobný, tím více informace nese[cite: 111].",
-            "Základní jednotkou informace je 1 shannon (bit), odpovídající nejistotě při výskytu jednoho ze dvou stejně pravděpodobných jevů[cite: 112, 114].",
-            "Jednotky informace se liší podle základu logaritmu: shannon (log2), hartley (log10) a nat (loge)[cite: 114, 115, 116].",
-            "Informační entropie (H) definuje průměrné množství informace připadající na jeden prvek zprávy[cite: 126, 127].",
-            "Komunikace v tomto kontextu znamená odstraňování neurčitosti u příjemce o stavu zdroje zpráv[cite: 93]."
+            "Míra informace ve zprávě je funkcí její pravděpodobnosti výskytu; čím je jev méně pravděpodobný, tím více informace nese.",
+            "Základní jednotkou informace je 1 shannon (bit), odpovídající nejistotě při výskytu jednoho ze dvou stejně pravděpodobných jevů .",
+            "Jednotky informace se liší podle základu logaritmu: shannon (log2), hartley (log10) a nat (loge) .",
+            "Informační entropie (H) definuje průměrné množství informace připadající na jeden prvek zprávy .",
+            "Komunikace v tomto kontextu znamená odstraňování neurčitosti u příjemce o stavu zdroje zpráv"
         ],
-        tip: "Zmiňte Claude Shannona jako otce teorie informace a jeho vzorec pro výpočet entropie[cite: 127, 167]."
+        tip: "Zmiňte Claude Shannona jako otce teorie informace a jeho vzorec pro výpočet entropie."
     },
     {
         title: "3. Základní typy kódů a abeced použitých pro přenos dat",
         points: [
-            "Kódování je proces přiřazení určité značky (binární sekvence) konkrétnímu znaku abecedy[cite: 218].",
-            "Rovnoměrné kódy (např. ASCII, ITA2) přiřazují všem znakům značky o stejné délce (např. 7 nebo 5 bitů)[cite: 281, 282, 322].",
-            "Nerovnoměrné kódy (např. Morseova abeceda, Huffman) mění délku značky podle četnosti výskytu znaku pro úsporu místa[cite: 228].",
-            "Kód ASCII je standard pro 128 znaků (7 bitů), zahrnující řídicí znaky, číslice a latinku[cite: 322].",
-            "Unicode (např. UTF-8, UTF-16) je moderní standard umožňující kódovat statisíce znaků všech světových písem[cite: 381, 383, 384]."
+            "Kódování je proces přiřazení určité značky (binární sekvence) konkrétnímu znaku abecedy.",
+            "Rovnoměrné kódy (např. ASCII, ITA2) přiřazují všem znakům značky o stejné délce (např. 7 nebo 5 bitů).",
+            "Nerovnoměrné kódy (např. Morseova abeceda, Huffman) mění délku značky podle četnosti výskytu znaku pro úsporu místa.",
+            "Kód ASCII je standard pro 128 znaků (7 bitů), zahrnující řídicí znaky, číslice a latinku.",
+            "Unicode (např. UTF-8, UTF-16) je moderní standard umožňující kódovat statisíce znaků všech světových písem ."
         ],
-        tip: "Vysvětlete rozdíl mezi ASCII (pevná délka) a UTF-8 (proměnná délka 1 až 4 bajty)[cite: 322, 398]."
+        tip: "Vysvětlete rozdíl mezi ASCII (pevná délka) a UTF-8 (proměnná délka 1 až 4 bajty) ."
     },
     {
         title: "4. Asynchronní a synchronní datové přenosy",
         points: [
-            "Synchronní přenos posílá data v souvislém proudu v taktu společných hodin (vysílač i přijímač jsou fázově svázáni)[cite: 439].",
-            "Asynchronní přenos probíhá po jednotlivých bajtech, kde je každý uvozen start bitem a ukončen stop bitem[cite: 440].",
-            "U asynchronního přenosu není vyžadován trvalý hodinový signál, synchronizace se obnovuje s každým znakem[cite: 440].",
-            "Synchronní přenos je efektivnější pro velké objemy dat, protože postrádá režii start/stop bitů u každého bajtu[cite: 439].",
-            "Moderní asynchronní systémy mohou přenášet i celé bloky dat s využitím úvodní synchronizační sekvence[cite: 441]."
+            "Synchronní přenos posílá data v souvislém proudu v taktu společných hodin (vysílač i přijímač jsou fázově svázáni).",
+            "Asynchronní přenos probíhá po jednotlivých bajtech, kde je každý uvozen start bitem a ukončen stop bitem.",
+            "U asynchronního přenosu není vyžadován trvalý hodinový signál, synchronizace se obnovuje s každým znakem.",
+            "Synchronní přenos je efektivnější pro velké objemy dat, protože postrádá režii start/stop bitů u každého bajtu.",
+            "Moderní asynchronní systémy mohou přenášet i celé bloky dat s využitím úvodní synchronizační sekvence."
         ],
-        tip: "Zmiňte, že v asynchronním přenosu je logický stav v klidu obvykle '1' a start bit jej mění na '0'[cite: 440]."
+        tip: "Zmiňte, že v asynchronním přenosu je logický stav v klidu obvykle '1' a start bit jej mění na '0'."
     },
     {
         title: "5. Rušivé vlivy působící na přenos dat",
         points: [
-            "Vnější zdroje rušení zahrnují přeslechy (crosstalk), elektromagnetickou interferenci (EMI) a vysokofrekvenční rušení (RFI)[cite: 671].",
-            "Vnitřní zdroje jsou dány samotnými přenosovými zařízeními (např. tepelný šum zesilovačů) a vlastnostmi média[cite: 672].",
-            "Elektrostatická interference (ESI) vzniká kapacitní vazbou mezi blízkými vodiči[cite: 671].",
-            "Šum v kanálu omezuje maximální dosažitelnou přenosovou rychlost podle Shannon-Hartleyho teorému[cite: 576].",
-            "Odstup signálu od šumu (SNR) je klíčový parametr udávající kvalitu kanálu v decibelech[cite: 576, 2557]."
+            "Vnější zdroje rušení zahrnují přeslechy (crosstalk), elektromagnetickou interferenci (EMI) a vysokofrekvenční rušení (RFI).",
+            "Vnitřní zdroje jsou dány samotnými přenosovými zařízeními (např. tepelný šum zesilovačů) a vlastnostmi média.",
+            "Elektrostatická interference (ESI) vzniká kapacitní vazbou mezi blízkými vodiči.",
+            "Šum v kanálu omezuje maximální dosažitelnou přenosovou rychlost podle Shannon-Hartleyho teorému.",
+            "Odstup signálu od šumu (SNR) je klíčový parametr udávající kvalitu kanálu v decibelech."
         ],
-        tip: "Vysvětlete, že rušení způsobuje chyby v detekci bitů (záměna '0' za '1' a naopak)[cite: 669]."
+        tip: "Vysvětlete, že rušení způsobuje chyby v detekci bitů (záměna '0' za '1' a naopak)."
     },
     {
         title: "6. Chybovost, telegrafní zkreslení",
         points: [
-            "Telegrafní zkreslení představuje časovou deformaci signálových prvků oproti jejich ideálnímu trvání[cite: 681, 2571].",
-            "Individuální zkreslení udává odchylku konkrétní hrany signálu v procentech doby trvání prvku 'a'[cite: 683, 2565].",
-            "Zkreslení dělíme na synchronní (vazba na hodiny) a asynchronní (vychází z maximální absolutní odchylky)[cite: 684, 685, 686].",
-            "BER (Bit Error Rate) je základní míra chybovosti, vyjádřená poměrem chybných bitů k celkovému počtu vyslaných bitů[cite: 703].",
-            "Chybovost lze zlepšit zvýšením výkonu signálu, volbou robustnější modulace nebo dopřednou opravou chyb (FEC)[cite: 705, 706, 707, 708]."
+            "Telegrafní zkreslení představuje časovou deformaci signálových prvků oproti jejich ideálnímu trvání .",
+            "Individuální zkreslení udává odchylku konkrétní hrany signálu v procentech doby trvání prvku 'a' .",
+            "Zkreslení dělíme na synchronní (vazba na hodiny) a asynchronní (vychází z maximální absolutní odchylky) .",
+            "BER (Bit Error Rate) je základní míra chybovosti, vyjádřená poměrem chybných bitů k celkovému počtu vyslaných bitů.",
+            "Chybovost lze zlepšit zvýšením výkonu signálu, volbou robustnější modulace nebo dopřednou opravou chyb (FEC) ."
         ],
-        tip: "Uveďte příklad akceptovatelné chybovosti v ICT systémech (často 10^-6 nebo lepší)[cite: 725, 729]."
+        tip: "Uveďte příklad akceptovatelné chybovosti v ICT systémech (často 10^-6 nebo lepší) ."
     },
     {
         title: "7. Detekční kódy, paritní kódy, CRC",
         points: [
-            "Detekční kódy umožňují příjemci zjistit, že při přenosu došlo k chybě, ale obvykle ji neumí opravit[cite: 773].",
+            "Detekční kódy umožňují příjemci zjistit, že při přenosu došlo k chybě, ale obvykle ji neumí opravit.",
             "Paritní bit je nejjednodušší forma detekce, doplňuje počet jedniček v bloku na sudý nebo lichý počet.",
-            "CRC (Cyclic Redundancy Check) využívá polynomiální dělení k vytvoření kontrolního součtu připojeného za data[cite: 1782, 1783].",
-            "Účinnost CRC závisí na volbě generujícího polynomu; dokáže odhalit shluky chyb i jednotlivé bity[cite: 2679, 2680].",
-            "Pokud detekční kód nahlásí chybu, systém obvykle vyžaduje opakování přenosu pomocí metody ARQ[cite: 769, 770]."
+            "CRC (Cyclic Redundancy Check) využívá polynomiální dělení k vytvoření kontrolního součtu připojeného za data.",
+            "Účinnost CRC závisí na volbě generujícího polynomu; dokáže odhalit shluky chyb i jednotlivé bity.",
+            "Pokud detekční kód nahlásí chybu, systém obvykle vyžaduje opakování přenosu pomocí metody ARQ."
         ],
-        tip: "Vysvětlete princip ARQ: kladné potvrzení (Ack) vs. záporné potvrzení (NAck) při zjištění chyby[cite: 769, 770]."
+        tip: "Vysvětlete princip ARQ: kladné potvrzení (Ack) vs. záporné potvrzení (NAck) při zjištění chyby."
     },
     {
         title: "8. Korekční kódy, opakovací kód, Hammingův kód",
         points: [
-            "Korekční kódy (FEC) obsahují dostatek redundance, aby přijímač mohl chybu sám lokalizovat a opravit[cite: 774, 35].",
-            "Hammingův kód využívá paritní kontroly nad specifickými skupinami bitů k identifikaci pozice chybného bitu[cite: 2536].",
+            "Korekční kódy (FEC) obsahují dostatek redundance, aby přijímač mohl chybu sám lokalizovat a opravit.",
+            "Hammingův kód využívá paritní kontroly nad specifickými skupinami bitů k identifikaci pozice chybného bitu.",
             "Opakovací kód je nejjednodušší FEC metoda, kde se každý bit vysílá vícekrát a rozhoduje se 'většinovou logikou'.",
-            "Kapacita opravy závisí na minimální Hammingově vzdálenosti kódu (např. vzdálenost 3 opraví jednu chybu)[cite: 2528, 2529].",
-            "V ICT se Hammingovy kódy často používají v pamětech ECC nebo u nízkoúrovňových sběrnic[cite: 2474]."
+            "Kapacita opravy závisí na minimální Hammingově vzdálenosti kódu (např. vzdálenost 3 opraví jednu chybu)",
+            "V ICT se Hammingovy kódy často používají v pamětech ECC nebo u nízkoúrovňových sběrnic."
         ],
-        tip: "Zmiňte pojem 'syndrom' jako výsledek kontrolní operace, který ukazuje na místo chyby[cite: 720]."
+        tip: "Zmiňte pojem 'syndrom' jako výsledek kontrolní operace, který ukazuje na místo chyby."
     },
     {
         title: "9. Bezpečnostní kódy, Hammingova vzdálenost",
         points: [
-            "Hammingova vzdálenost (d) mezi dvěma kódovými slovy je počet pozic, ve kterých se jejich odpovídající bity liší[cite: 793].",
-            "Minimální Hammingova vzdálenost (dmin) celého kódu určuje jeho schopnost detekovat a opravovat chyby[cite: 794, 26].",
-            "Pro detekci 'n' chyb musí být dmin alespoň n + 1[cite: 798, 2528, 2529].",
-            "Pro opravu 'n' chyb musí být dmin alespoň 2n + 1[cite: 798, 39].",
-            "Hammingova váha slova je počet nenulových prvků (jedniček) v dané kódové kombinaci[cite: 799, 28]."
+            "Hammingova vzdálenost (d) mezi dvěma kódovými slovy je počet pozic, ve kterých se jejich odpovídající bity liší.",
+            "Minimální Hammingova vzdálenost (dmin) celého kódu určuje jeho schopnost detekovat a opravovat chyby.",
+            "Pro detekci 'n' chyb musí být dmin alespoň n + 1.",
+            "Pro opravu 'n' chyb musí být dmin alespoň 2n + 1.",
+            "Hammingova váha slova je počet nenulových prvků (jedniček) v dané kódové kombinaci."
         ],
-        tip: "Vysvětlete vztah na příkladu: kód s dmin=3 detekuje 2 chyby nebo opraví 1 chybu[cite: 798, 39]."
+        tip: "Vysvětlete vztah na příkladu: kód s dmin=3 detekuje 2 chyby nebo opraví 1 chybu."
     },
     {
         title: "10. Zpětnovazební metody zabezpečení zpráv",
         points: [
-            "Zpětnovazební systémy (ARQ) vyžadují obousměrný kanál pro potvrzování správnosti doručení[cite: 766, 29].",
-            "Informační zpětná vazba vrací přijatá data zpět vysílači k porovnání (vysílač rozhoduje o opravě)[cite: 767].",
-            "Řídicí zpětná vazba (Decision feedback) posílá pouze potvrzení (Ack/NAck) na základě detekce chyby v přijímači[cite: 768, 769, 770].",
-            "Varianty ARQ zahrnují 'Stop-and-Wait' (čeká na potvrzení každého bloku) nebo 'Selective Repeat'[cite: 771].",
-            "Zpětnovazební metody zvyšují spolehlivost na úkor propustnosti (kvůli režiím a opakování)[cite: 58]."
+            "Zpětnovazební systémy (ARQ) vyžadují obousměrný kanál pro potvrzování správnosti doručení .",
+            "Informační zpětná vazba vrací přijatá data zpět vysílači k porovnání (vysílač rozhoduje o opravě).",
+            "Řídicí zpětná vazba (Decision feedback) posílá pouze potvrzení (Ack/NAck) na základě detekce chyby v přijímači.",
+            "Varianty ARQ zahrnují 'Stop-and-Wait' (čeká na potvrzení každého bloku) nebo 'Selective Repeat'.",
+            "Zpětnovazební metody zvyšují spolehlivost na úkor propustnosti (kvůli režiím a opakování)"
         ],
-        tip: "Zdůrazněte rozdíl mezi FEC (oprava v přijímači) a ARQ (oprava novým vysláním)[cite: 774, 769]."
+        tip: "Zdůrazněte rozdíl mezi FEC (oprava v přijímači) a ARQ (oprava novým vysláním)."
     },
     {
         title: "11. Zabezpečení zprávy – základní metody",
         points: [
-            "Zabezpečení zahrnuje ochranu integrity (zpráva nebyla změněna) a autenticity (vím, kdo ji poslal)[cite: 2013, 2176].",
-            "Zabezpečovací kódování (Safety encoding) přidává redundancy k ochraně proti náhodným chybám v kanálu[cite: 757, 32].",
-            "Kryptografické metody (šifrování) chrání obsah před nepovolaným čtením[cite: 2012, 2024, 2176].",
-            "Hashovací funkce vytvářejí unikátní otisk zprávy pro ověření její integrity při příjmu[cite: 2013, 2206, 2207].",
-            "Adaptivní změna přenosové rychlosti podle kvality kanálu (SNR) je také formou zabezpečení kontinuity přenosu[cite: 756]."
+            "Zabezpečení zahrnuje ochranu integrity (zpráva nebyla změněna) a autenticity (vím, kdo ji poslal).",
+            "Zabezpečovací kódování (Safety encoding) přidává redundancy k ochraně proti náhodným chybám v kanálu .",
+            "Kryptografické metody (šifrování) chrání obsah před nepovolaným čtením.",
+            "Hashovací funkce vytvářejí unikátní otisk zprávy pro ověření její integrity při příjmu.",
+            "Adaptivní změna přenosové rychlosti podle kvality kanálu (SNR) je také formou zabezpečení kontinuity přenosu."
         ],
-        tip: "Rozlište mezi zabezpečením proti šumu (kódy) a zabezpečením proti útočníkovi (šifry)[cite: 772, 2012]."
+        tip: "Rozlište mezi zabezpečením proti šumu (kódy) a zabezpečením proti útočníkovi (šifry)."
     },
     {
         title: "12. Základní parametry datového signálu",
         points: [
-            "Signálový prvek (a) je nejkratší časový úsek, ve kterém dochází ke změně stavu signálu[cite: 197, 21].",
-            "Modulační rychlost (vm) se udává v Baudech [Bd] a vypočte se jako převrácená hodnota trvání prvku (1/a)[cite: 463, 464, 33].",
-            "Přenosová rychlost (vp) udává počet bitů přenesených za sekundu [bps] a závisí na počtu stavů signálu[cite: 465, 466, 34].",
-            "Spektrum signálu definuje jeho frekvenční složení (rozklad na harmonické složky pomocí Fourierovy analýzy)[cite: 515, 516, 1].",
-            "Šířka pásma (B) je rozsah frekvencí, které kanál přenese bez výrazného útlumu[cite: 574, 576, 19]."
+            "Signálový prvek (a) je nejkratší časový úsek, ve kterém dochází ke změně stavu signálu.",
+            "Modulační rychlost (vm) se udává v Baudech [Bd] a vypočte se jako převrácená hodnota trvání prvku (1/a)  .",
+            "Přenosová rychlost (vp) udává počet bitů přenesených za sekundu [bps] a závisí na počtu stavů signálu .",
+            "Spektrum signálu definuje jeho frekvenční složení (rozklad na harmonické složky pomocí Fourierovy analýzy) .",
+            "Šířka pásma (B) je rozsah frekvencí, které kanál přenese bez výrazného útlumu ."
         ],
-        tip: "Vysvětlete vztah vp = vm * log2(m), kde 'm' je počet stavů signálu (např. pro 4 stavy nese jeden Baud 2 bity)[cite: 466, 13]."
+        tip: "Vysvětlete vztah vp = vm * log2(m), kde 'm' je počet stavů signálu (např. pro 4 stavy nese jeden Baud 2 bity) ."
     },
     {
         title: "13. Datové signály v základním pásmu",
         points: [
-            "Signál v základním pásmu (baseband) je přenášen bez modulace na nosnou vlnu, přímo ve svém původním frekvenčním rozsahu[cite: 619].",
-            "Spektrum tohoto signálu začíná od nulové (stejnosměrné) složky až po maximální frekvenci danou rychlostí změn[cite: 619].",
-            "Mezi základní typy kódování v základním pásmu patří unipolární, polární a bipolární signály[cite: 620, 621, 622].",
-            "Vícestavové (multistate) signály v základním pásmu umožňují přenést více bitů v jednom časovém intervalu[cite: 623].",
+            "Signál v základním pásmu (baseband) je přenášen bez modulace na nosnou vlnu, přímo ve svém původním frekvenčním rozsahu.",
+            "Spektrum tohoto signálu začíná od nulové (stejnosměrné) složky až po maximální frekvenci danou rychlostí změn.",
+            "Mezi základní typy kódování v základním pásmu patří unipolární, polární a bipolární signály .",
+            "Vícestavové (multistate) signály v základním pásmu umožňují přenést více bitů v jednom časovém intervalu.",
             "Tento způsob přenosu je typický pro LAN sítě (Ethernet) nebo krátké spoje, kde není nutné šetřit šířkou pásma vysokofrekvenční nosnou."
         ],
         tip: "Vysvětlete, že hlavní nevýhodou je omezený dosah kvůli útlumu vysokých frekvencí a nemožnost frekvenčního multiplexu."
@@ -191,10 +191,10 @@ const topics = [
     {
         title: "14. Datové signály v přeloženém pásmu",
         points: [
-            "Přeložené pásmo (passband) vzniká procesem modulace, kdy se datový signál 'přenese' do vyššího kmitočtového rozsahu[cite: 624].",
-            "Tento signál má omezenou šířku pásma (specific band) a neobsahuje stejnosměrnou složku[cite: 624].",
+            "Přeložené pásmo (passband) vzniká procesem modulace, kdy se datový signál 'přenese' do vyššího kmitočtového rozsahu.",
+            "Tento signál má omezenou šířku pásma (specific band) a neobsahuje stejnosměrnou složku.",
             "Využívá se pro přenosy na dlouhé vzdálenosti, bezdrátovou komunikaci nebo sdílení jednoho média více uživateli.",
-            "Typickými zástupci jsou modulace jako ASK, FSK, PSK nebo komplexní QAM[cite: 625, 626, 627, 628].",
+            "Typickými zástupci jsou modulace jako ASK, FSK, PSK nebo komplexní QAM.",
             "Umožňuje efektivní využití přenosových cest pomocí frekvenčního multiplexování (FDM)."
         ],
         tip: "Zmiňte, že passband signály jsou základem pro technologie jako ADSL, WiFi nebo mobilní sítě."
@@ -202,118 +202,118 @@ const topics = [
     {
         title: "15. Způsoby modulace datových signálů",
         points: [
-            "Modulace je proces změny parametrů (amplituda, fáze, frekvence) nosného signálu modulačním signálem[cite: 1011, 1013].",
-            "ASK (Amplitude Shift Keying): mění se amplituda nosné vlny podle logických úrovní dat[cite: 1021, 1023].",
-            "FSK (Frequency Shift Keying): datové stavy 0 a 1 jsou reprezentovány dvěma různými kmitočty[cite: 1038, 1040].",
-            "PSK (Phase Shift Keying): informace je kódována do skokových změn fáze nosné vlny[cite: 1060, 1062].",
-            "QAM (Kvadraturní modulace): kombinuje změnu amplitudy i fáze, čímž dosahuje vysoké spektrální účinnosti[cite: 1105]."
+            "Modulace je proces změny parametrů (amplituda, fáze, frekvence) nosného signálu modulačním signálem, .",
+            "ASK (Amplitude Shift Keying): mění se amplituda nosné vlny podle logických úrovní dat, .",
+            "FSK (Frequency Shift Keying): datové stavy 0 a 1 jsou reprezentovány dvěma různými kmitočty, .",
+            "PSK (Phase Shift Keying): informace je kódována do skokových změn fáze nosné vlny, .",
+            "QAM (Kvadraturní modulace): kombinuje změnu amplitudy i fáze, čímž dosahuje vysoké spektrální účinnosti."
         ],
-        tip: "Vysvětlete pojem 'demodulace' jako proces obnovení původních dat z přijatého modulovaného signálu[cite: 1014]."
+        tip: "Vysvětlete pojem 'demodulace' jako proces obnovení původních dat z přijatého modulovaného signálu."
     },
     {
         title: "16. Koncová zařízení pro přenos dat",
         points: [
-            "Koncová zařízení (End Devices) jsou body, kde data vznikají (zdroj) nebo jsou zpracovávána (spotřebitel)[cite: 1493, 1494].",
-            "Zdrojem dat jsou často senzory (teplota, tlak), které převádějí fyzikální veličiny na elektrický signál[cite: 1494, 1568].",
-            "Spotřebitelem mohou být aktuátory (motory, ventily), které elektrický signál mění na fyzickou akci[cite: 1495, 1569].",
-            "Řídicí prvek (Controller) zajišťuje funkce jako kódování, kompresi, šifrování a vlastní řízení přenosu[cite: 1496].",
-            "Příkladem moderních koncových zařízení jsou platformy Arduino (mikrokontrolér) nebo Raspberry Pi (SBC)[cite: 1503, 1545]."
+            "Koncová zařízení (End Devices) jsou body, kde data vznikají (zdroj) nebo jsou zpracovávána (spotřebitel).",
+            "Zdrojem dat jsou často senzory (teplota, tlak), které převádějí fyzikální veličiny na elektrický signál.",
+            "Spotřebitelem mohou být aktuátory (motory, ventily), které elektrický signál mění na fyzickou akci.",
+            "Řídicí prvek (Controller) zajišťuje funkce jako kódování, kompresi, šifrování a vlastní řízení přenosu.",
+            "Příkladem moderních koncových zařízení jsou platformy Arduino (mikrokontrolér) nebo Raspberry Pi (SBC)."
         ],
-        tip: "Zmiňte terminály jako speciální koncová zařízení sloužící pro interakci s uživatelem nebo správu systému[cite: 1583]."
+        tip: "Zmiňte terminály jako speciální koncová zařízení sloužící pro interakci s uživatelem nebo správu systému."
     },
     {
         title: "17. Senzory, rozhraní I3",
         points: [
-            "Senzory jsou vstupní prvky koncových zařízení, které snímají okolní prostředí (např. gyroskopy, teploměry)[cite: 1572].",
-            "Rozhraní I3 je vnitřní datové rozhraní uvnitř koncového zařízení, spojující procesor s periferiemi[cite: 159, 1591, 1606].",
-            "Mezi standardy I3 patří sběrnice I2C, určená pro komunikaci na krátké vzdálenosti mezi čipy[cite: 1592].",
-            "Sběrnice SPI (Serial Peripheral Interface) je dalším typem I3 rozhraní, využívajícím signály MOSI, MISO a SCLK[cite: 1606, 1607].",
-            "Vysokorychlostním variantou vnitřního rozhraní je PCI Express, používaný pro náročné komponenty jako grafiky[cite: 1628, 1629]."
+            "Senzory jsou vstupní prvky koncových zařízení, které snímají okolní prostředí (např. gyroskopy, teploměry).",
+            "Rozhraní I3 je vnitřní datové rozhraní uvnitř koncového zařízení, spojující procesor s periferiemi .",
+            "Mezi standardy I3 patří sběrnice I2C, určená pro komunikaci na krátké vzdálenosti mezi čipy.",
+            "Sběrnice SPI (Serial Peripheral Interface) je dalším typem I3 rozhraní, využívajícím signály MOSI, MISO a SCLK.",
+            "Vysokorychlostním variantou vnitřního rozhraní je PCI Express, používaný pro náročné komponenty jako grafiky."
         ],
-        tip: "Vysvětlete, že u I2C jsou zařízení dělena na Master (řídí hodiny) a Slave (odpovídá)[cite: 1593, 1595]."
+        tip: "Vysvětlete, že u I2C jsou zařízení dělena na Master (řídí hodiny) a Slave (odpovídá)."
     },
     {
         title: "18. Rozhraní I2 – základní charakteristiky",
         points: [
-            "Rozhraní I2 je vnější datové rozhraní mezi koncovým zařízením a mezilehlým zařízením (např. modemem)[cite: 159, 1654].",
-            "Mechanické vlastnosti definují typ konektoru, počet pinů a jejich uspořádání[cite: 1655].",
-            "Elektrické vlastnosti určují napěťové úrovně pro logickou 0 a 1 a časování signálů[cite: 1656].",
-            "Funkční vlastnosti definují význam jednotlivých signálů (např. Tx - vysílání, Rx - příjem)[cite: 1657].",
-            "Protokolární vlastnosti určují postup navazování, udržování a ukončování spojení[cite: 1658]."
+            "Rozhraní I2 je vnější datové rozhraní mezi koncovým zařízením a mezilehlým zařízením (např. modemem).",
+            "Mechanické vlastnosti definují typ konektoru, počet pinů a jejich uspořádání.",
+            "Elektrické vlastnosti určují napěťové úrovně pro logickou 0 a 1 a časování signálů.",
+            "Funkční vlastnosti definují význam jednotlivých signálů (např. Tx - vysílání, Rx - příjem).",
+            "Protokolární vlastnosti určují postup navazování, udržování a ukončování spojení."
         ],
-        tip: "Jako příklad I2 uveďte RS232 pro sériovou linku nebo moderní a komplexní standard USB[cite: 1669, 1681]."
+        tip: "Jako příklad I2 uveďte RS232 pro sériovou linku nebo moderní a komplexní standard USB."
     },
     {
         title: "19. Měniče v přeloženém pásmu (Modemy)",
         points: [
-            "Modem (modulátor-demodulátor) slouží k přizpůsobení digitálních dat pro přenos analogovým kanálem[cite: 1240].",
-            "Passband modem pracuje v omezeném frekvenčním pásmu (např. klasické telefonní modemy)[cite: 1242].",
-            "Základní funkcí je převod binárního signálu na modulační stavy nosné vlny a zpět[cite: 1013, 1014].",
+            "Modem (modulátor-demodulátor) slouží k přizpůsobení digitálních dat pro přenos analogovým kanálem.",
+            "Passband modem pracuje v omezeném frekvenčním pásmu (např. klasické telefonní modemy).",
+            "Základní funkcí je převod binárního signálu na modulační stavy nosné vlny a zpět.",
             "Modemy v přeloženém pásmu umožňují dálkový přenos dat přes média původně určená pro hlas (např. telefonní linky).",
             "Kvalita měniče se posuzuje podle dosažené přenosové rychlosti a odolnosti vůči šumu v kanálu."
         ],
-        tip: "Uveďte, že modem je typickým 'mezilehlým zařízením' v datovém řetězci[cite: 158]."
+        tip: "Uveďte, že modem je typickým 'mezilehlým zařízením' v datovém řetězci."
     },
     {
         title: "20. Širokopásmové datové měniče (Broadband)",
         points: [
-            "Širokopásmové modemy využívají velkou šířku pásma pro dosažení vysokých přenosových rychlostí[cite: 1243, 1250].",
-            "Technologie xDSL (ADSL, VDSL) využívá stávající kroucené dvoulinky pro vysokorychlostní internet[cite: 1251, 1270].",
-            "Kabelové modemy pracují v sítích HFC (Hybrid Fiber Coax) podle standardu DOCSIS[cite: 1252, 1303].",
-            "Bezdrátové širokopásmové měniče zahrnují WiFi (volná pásma) a mobilní modemy (standardy 3GPP jako 5G)[cite: 1259, 1407].",
-            "FTTx modemy (ONT jednotky) ukončují optické vlákno přímo u uživatele nebo v budově[cite: 1255, 1258, 1343]."
+            "Širokopásmové modemy využívají velkou šířku pásma pro dosažení vysokých přenosových rychlostí.",
+            "Technologie xDSL (ADSL, VDSL) využívá stávající kroucené dvoulinky pro vysokorychlostní internet.",
+            "Kabelové modemy pracují v sítích HFC (Hybrid Fiber Coax) podle standardu DOCSIS.",
+            "Bezdrátové širokopásmové měniče zahrnují WiFi (volná pásma) a mobilní modemy (standardy 3GPP jako 5G).",
+            "FTTx modemy (ONT jednotky) ukončují optické vlákno přímo u uživatele nebo v budově."
         ],
-        tip: "Zmiňte satelitní systémy jako Starlink, které poskytují širokopásmové připojení i v odlehlých oblastech[cite: 1261, 1425]."
+        tip: "Zmiňte satelitní systémy jako Starlink, které poskytují širokopásmové připojení i v odlehlých oblastech."
     },
     {
         title: "21. Statistické kompresní metody",
         points: [
-            "Statistické metody (entropické kódování) vycházejí z četnosti výskytu jednotlivých symbolů v datech[cite: 848].",
-            "Častěji se vyskytující znaky jsou kódovány kratší značkou, méně časté delší značkou pro úsporu místa[cite: 921, 924].",
-            "Algoritmus Shannon-Fano vytváří binární strom od kořene k listům na základě pravděpodobností[cite: 906, 907].",
-            "Huffmanovo kódování staví strom od listů ke kořeni a je optimální pro statická data[cite: 921, 922].",
-            "Adaptivní Huffman mění strukturu stromu dynamicky během přenosu podle aktuálních dat[cite: 936, 937]."
+            "Statistické metody (entropické kódování) vycházejí z četnosti výskytu jednotlivých symbolů v datech.",
+            "Častěji se vyskytující znaky jsou kódovány kratší značkou, méně časté delší značkou pro úsporu místa .",
+            "Algoritmus Shannon-Fano vytváří binární strom od kořene k listům na základě pravděpodobností .",
+            "Huffmanovo kódování staví strom od listů ke kořeni a je optimální pro statická data .",
+            "Adaptivní Huffman mění strukturu stromu dynamicky během přenosu podle aktuálních dat ."
         ],
-        tip: "Uveďte metodu RLE (Run Length Encoding) jako jednoduchou statistickou metodu pro dlouhé sekvence stejných znaků[cite: 868]."
+        tip: "Uveďte metodu RLE (Run Length Encoding) jako jednoduchou statistickou metodu pro dlouhé sekvence stejných znaků."
     },
     {
         title: "22. Slovníkové kompresní metody",
         points: [
-            "Slovníkové metody nahrazují celé řetězce znaků krátkým odkazem do slovníku (dictionary)[cite: 850].",
-            "LZ77 (Lempel-Ziv) hledá shody v historii již přenesených dat pomocí 'posuvného okna'[cite: 946, 947].",
-            "Formát výstupu LZ77 je trojice (Offset, Délka, Znak)[cite: 948].",
-            "LZ78 buduje explicitní slovník frází, do kterého ukládá nové kombinace indexem[cite: 957, 958].",
-            "LZW (Lempel-Ziv-Welch) je vylepšení, které začíná s předvyplněným slovníkem (např. ASCII)[cite: 969, 970]."
+            "Slovníkové metody nahrazují celé řetězce znaků krátkým odkazem do slovníku (dictionary).",
+            "LZ77 (Lempel-Ziv) hledá shody v historii již přenesených dat pomocí 'posuvného okna' .",
+            "Formát výstupu LZ77 je trojice (Offset, Délka, Znak).",
+            "LZ78 buduje explicitní slovník frází, do kterého ukládá nové kombinace indexem .",
+            "LZW (Lempel-Ziv-Welch) je vylepšení, které začíná s předvyplněným slovníkem (např. ASCII)."
         ],
-        tip: "Zdůrazněte, že tyto metody jsou bezeztrátové, tedy umožňují dokonalou rekonstrukci původních dat[cite: 836]."
+        tip: "Zdůrazněte, že tyto metody jsou bezeztrátové, tedy umožňují dokonalou rekonstrukci původních dat."
     },
     {
         title: "23. Sdružovací zařízení pro přenos dat (Multiplexory)",
         points: [
-            "Multiplexování je metoda kombinování více signálů do jednoho společného toku přes sdílené médium[cite: 1830].",
-            "Multiplexer (MUX) je zařízení, které signály spojuje; Demultiplexer (DEMUX) je na konci opět rozděluje[cite: 1831, 1832].",
-            "Základní typy multiplexu jsou frekvenční (FDM), časový (TDM), vlnový (WDM) a kódový (CDM)[cite: 1840, 1841, 1842, 1843].",
+            "Multiplexování je metoda kombinování více signálů do jednoho společného toku přes sdílené médium.",
+            "Multiplexer (MUX) je zařízení, které signály spojuje; Demultiplexer (DEMUX) je na konci opět rozděluje.",
+            "Základní typy multiplexu jsou frekvenční (FDM), časový (TDM), vlnový (WDM) a kódový (CDM).",
             "Sdružování umožňuje efektivní využití drahých přenosových cest (např. páteřní optická vlákna).",
-            "Prostorový multiplex (SDM) využívá prostorovou separaci, například více antén v systémech MIMO[cite: 1844, 1955]."
+            "Prostorový multiplex (SDM) využívá prostorovou separaci, například více antén v systémech MIMO."
         ],
-        tip: "Vysvětlete, že u WDM se v jednom vlákně přenáší více barev světla současně[cite: 1873, 1876]."
+        tip: "Vysvětlete, že u WDM se v jednom vlákně přenáší více barev světla současně."
     },
     {
         title: "24. Synchronní multiplexory",
         points: [
-            "Synchronní časový multiplex (TDM) přiděluje každému vstupnímu kanálu pevný časový slot v rámci rámce[cite: 1906].",
-            "Kapacita je rezervována pro každý kanál trvale, i když zrovna nepřenáší žádná data[cite: 1907].",
+            "Synchronní časový multiplex (TDM) přiděluje každému vstupnímu kanálu pevný časový slot v rámci rámce.",
+            "Kapacita je rezervována pro každý kanál trvale, i když zrovna nepřenáší žádná data.",
             "Nevýhodou je neefektivita u nárazového provozu, výhodou je garantované zpoždění a jednoduchost řazení.",
-            "Přepínač v multiplexeru se cyklicky střídá mezi vstupy v přesně definovaných intervalech[cite: 1910, 1912].",
+            "Přepínač v multiplexeru se cyklicky střídá mezi vstupy v přesně definovaných intervalech.",
             "Příkladem jsou systémy digitální telefonie (E1/T1 linky), kde má každý hovor svůj pevný slot."
         ],
-        tip: "Porovnejte se statistickým (asynchronním) multiplexem, který přiděluje sloty jen těm, kdo mají co vysílat[cite: 1908]."
+        tip: "Porovnejte se statistickým (asynchronním) multiplexem, který přiděluje sloty jen těm, kdo mají co vysílat."
     },
     {
         title: "25. Statistické multiplexory",
         points: [
-            "Statistický (asynchronní) multiplex přiděluje kapacitu společné linky dynamicky pouze těm vstupům, které mají aktuálně data k odeslání[cite: 1908].",
-            "Na rozdíl od synchronního multiplexu nevyžaduje pevné časové sloty pro každý kanál, což dramaticky zvyšuje efektivitu využití linky[cite: 1908].",
+            "Statistický (asynchronní) multiplex přiděluje kapacitu společné linky dynamicky pouze těm vstupům, které mají aktuálně data k odeslání.",
+            "Na rozdíl od synchronního multiplexu nevyžaduje pevné časové sloty pro každý kanál, což dramaticky zvyšuje efektivitu využití linky.",
             "Umožňuje obsloužit více uživatelů, než by odpovídalo součtu jejich špičkových rychlostí (agregace), za předpokladu, že nevysílají všichni naráz.",
             "Zavádí však proměnné zpoždění a vyžaduje vyrovnávací paměti (buffery) pro vykrývání špiček v provozu.",
             "Tento princip je základem moderních paketových sítí, jako je internet nebo Ethernet."
@@ -323,9 +323,9 @@ const topics = [
     {
         title: "26. Deterministické řízení přístupu k médiu",
         points: [
-            "Deterministické metody zaručují každé stanici přístup k médiu v přesně definovaném čase, čímž eliminují vznik kolizí[cite: 2359, 2607].",
-            "Centralizované řízení využívá řídicí stanici (Master), která cyklicky přiděluje kapacitu ostatním stanicí (Slaves)[cite: 2360, 2609].",
-            "Distribuované řízení (např. Token Passing) předává vysílací právo pomocí speciálního rámce zvaného pešek (token)[cite: 2361, 2610].",
+            "Deterministické metody zaručují každé stanici přístup k médiu v přesně definovaném čase, čímž eliminují vznik kolizí.",
+            "Centralizované řízení využívá řídicí stanici (Master), která cyklicky přiděluje kapacitu ostatním stanicí (Slaves).",
+            "Distribuované řízení (např. Token Passing) předává vysílací právo pomocí speciálního rámce zvaného pešek (token).",
             "Výhodou je garantovaná odezva a předvídatelnost, což je klíčové pro průmyslové systémy a real-time aplikace.",
             "Příkladem je technologie Token Ring nebo sběrnice MIL-STD-1553."
         ],
@@ -334,10 +334,10 @@ const topics = [
     {
         title: "27. Stochastické řízení přístupu k médiu",
         points: [
-            "Stochastické (náhodné) metody umožňují stanicím vysílat kdykoliv, ale hrozí riziko vzniku kolizí při současném vysílání více stanic[cite: 2355].",
-            "ALOHA: základní metoda, kde stanice vysílá ihned a při kolizi (nepotvrzení) čeká náhodnou dobu před opakováním[cite: 2356].",
-            "CSMA/CD: vylepšená metoda pro Ethernet, která před vysíláním 'naslouchá' médiu a během vysílání detekuje kolize[cite: 2357].",
-            "CSMA/CA: metoda pro bezdrátové sítě (WiFi), která se kolizím snaží předcházet pomocí potvrzovacích rámců[cite: 2358, 2653].",
+            "Stochastické (náhodné) metody umožňují stanicím vysílat kdykoliv, ale hrozí riziko vzniku kolizí při současném vysílání více stanic.",
+            "ALOHA: základní metoda, kde stanice vysílá ihned a při kolizi (nepotvrzení) čeká náhodnou dobu před opakováním.",
+            "CSMA/CD: vylepšená metoda pro Ethernet, která před vysíláním 'naslouchá' médiu a během vysílání detekuje kolize.",
+            "CSMA/CA: metoda pro bezdrátové sítě (WiFi), která se kolizím snaží předcházet pomocí potvrzovacích rámců, 2653.",
             "Efektivita těchto metod klesá s rostoucím počtem aktivních stanic a zvyšujícím se datovým provozem."
         ],
         tip: "Vysvětlete zkratku CSMA/CD: Carrier Sense (naslouchání), Multiple Access (více stanic), Collision Detection (detekce kolize)."
@@ -345,32 +345,32 @@ const topics = [
     {
         title: "28. Přenosová média pro přenos dat",
         points: [
-            "Metalická média využívají kroucenou dvoulinku (UTP/STP) pro LAN nebo koaxiální kabely pro kabelovou televizi a DOCSIS[cite: 1251, 1303, 1346].",
-            "Optická vlákna přenášejí data pomocí světelných impulsů a nabízejí nejvyšší rychlosti a největší dosah (např. technologie FTTx)[cite: 1343, 1345, 1360].",
-            "Bezdrátová média využívají volný prostor pro šíření elektromagnetických vln v různých pásmech (frekvence 2.4GHz, 5GHz, 60GHz)[cite: 1259, 1408].",
-            "Satelitní systémy (např. Starlink) umožňují globální pokrytí pomocí mikrovlnných pásem Ku a Ka[cite: 1261, 1425, 1438].",
+            "Metalická média využívají kroucenou dvoulinku (UTP/STP) pro LAN nebo koaxiální kabely pro kabelovou televizi a DOCSIS.",
+            "Optická vlákna přenášejí data pomocí světelných impulsů a nabízejí nejvyšší rychlosti a největší dosah (např. technologie FTTx).",
+            "Bezdrátová média využívají volný prostor pro šíření elektromagnetických vln v různých pásmech (frekvence 2.4GHz, 5GHz, 60GHz).",
+            "Satelitní systémy (např. Starlink) umožňují globální pokrytí pomocí mikrovlnných pásem Ku a Ka.",
             "Volba média závisí na požadované rychlosti, vzdálenosti, nákladech a úrovni okolního rušení."
         ],
-        tip: "Zmiňte vlnová délková pásma u optiky (O, E, S, C, L, U), která se liší útlumem a účelem[cite: 1360]."
+        tip: "Zmiňte vlnová délková pásma u optiky (O, E, S, C, L, U), která se liší útlumem a účelem."
     },
     {
         title: "29. Bezdrátové technologie pro přenos dat",
         points: [
-            "Bluetooth (802.15.1) a Zigbee jsou určeny pro sítě PAN s krátkým dosahem a nízkou spotřebou[cite: 2320].",
-            "WiFi (standardy 802.11 a/b/g/n/ac/ax/be) poskytuje lokální konektivitu v rámci budov a areálů[cite: 1397, 2332].",
-            "Mobilní sítě (LTE, 5G NR) nabízejí širokopásmový přístup s využitím licencovaných pásem FR1 a FR2[cite: 1407, 1408].",
-            "Satelitní internet Starlink využívá nízkoletící konstelace pro snížení latence oproti geostacionárním družicím[cite: 1425].",
-            "Technologie LPWAN (LoRa, Sigfox) jsou optimalizovány pro přenos malých objemů dat ze senzorů na velké vzdálenosti[cite: 2389]."
+            "Bluetooth (802.15.1) a Zigbee jsou určeny pro sítě PAN s krátkým dosahem a nízkou spotřebou.",
+            "WiFi (standardy 802.11 a/b/g/n/ac/ax/be) poskytuje lokální konektivitu v rámci budov a areálů.",
+            "Mobilní sítě (LTE, 5G NR) nabízejí širokopásmový přístup s využitím licencovaných pásem FR1 a FR2.",
+            "Satelitní internet Starlink využívá nízkoletící konstelace pro snížení latence oproti geostacionárním družicím.",
+            "Technologie LPWAN (LoRa, Sigfox) jsou optimalizovány pro přenos malých objemů dat ze senzorů na velké vzdálenosti."
         ],
-        tip: "Zmiňte Wi-Fi 7 (802.11be), která dosahuje linkových rychlostí až desítek Gbps v pásmech 2.4, 5 a 6 GHz[cite: 1397]."
+        tip: "Zmiňte Wi-Fi 7 (802.11be), která dosahuje linkových rychlostí až desítek Gbps v pásmech 2.4, 5 a 6 GHz."
     },
     {
         title: "30. Zabezpečení bezdrátových přenosů",
         points: [
-            "Základem zabezpečení je šifrování dat, které brání jejich odposlechu v otevřeném sdíleném médiu[cite: 2712].",
-            "Standard WPA2 využívá blokovou šifru AES (Advanced Encryption Standard), která je v současnosti vysoce bezpečná[cite: 2712, 2713].",
+            "Základem zabezpečení je šifrování dat, které brání jejich odposlechu v otevřeném sdíleném médiu.",
+            "Standard WPA2 využívá blokovou šifru AES (Advanced Encryption Standard), která je v současnosti vysoce bezpečná.",
             "WPA3 přináší další vylepšení, jako je odolnější proces autentizace (SAE) a silnější 192bitové šifrování.",
-            "Ochrana proti rušení v bezdrátových sítích zahrnuje techniky jako rozprostřené spektrum (CDMA) nebo ortogonalitu subnosných (OFDM)[cite: 1925, 2478].",
+            "Ochrana proti rušení v bezdrátových sítích zahrnuje techniky jako rozprostřené spektrum (CDMA) nebo ortogonalitu subnosných (OFDM).",
             "Autentizace uživatelů a zařízení zajišťuje, že do sítě mají přístup pouze oprávněné subjekty."
         ],
         tip: "Vysvětlete, že u WiFi je šifrování kritické, protože kdokoli s anténou v dosahu může signál zachytit."
@@ -378,21 +378,21 @@ const topics = [
     {
         title: "31. Základní vlastnosti WAN sítí",
         points: [
-            "WAN (Wide Area Network) propojují uzly na velkých geografických vzdálenostech (města, státy, kontinenty)[cite: 2298, 2384].",
-            "Využívají páteřní technologie jako MPLS (Multiprotocol Label Switching) nebo pronajaté okruhy (Leased Lines)[cite: 2385, 2386].",
-            "Přenos probíhá přes různorodá média: optické dálkové trasy, satelitní spoje nebo mikrovlnná pojítka[cite: 2388].",
-            "Moderní trend SD-WAN umožňuje softwarově definované a flexibilní řízení provozu v těchto rozsáhlých sítích[cite: 2390, 2398].",
-            "Klíčovými parametry jsou propustnost, latence (zpoždění) a dostupnost (SLA kontrakty)[cite: 2410]."
+            "WAN (Wide Area Network) propojují uzly na velkých geografických vzdálenostech (města, státy, kontinenty).",
+            "Využívají páteřní technologie jako MPLS (Multiprotocol Label Switching) nebo pronajaté okruhy (Leased Lines).",
+            "Přenos probíhá přes různorodá média: optické dálkové trasy, satelitní spoje nebo mikrovlnná pojítka.",
+            "Moderní trend SD-WAN umožňuje softwarově definované a flexibilní řízení provozu v těchto rozsáhlých sítích.",
+            "Klíčovými parametry jsou propustnost, latence (zpoždění) a dostupnost (SLA kontrakty)."
         ],
         tip: "Porovnejte WAN s LAN: u WAN je klíčové optimalizovat cenu za přenesený bit kvůli drahým dálkovým trasám."
     },
     {
         title: "32. Symetrické šifrování",
         points: [
-            "Symetrické šifrování využívá jeden tajný klíč sdílený oběma stranami pro šifrování i dešifrování[cite: 2012, 2024].",
-            "Substituční šifry (Caesar, Vigenère, Vernam) nahrazují znaky jinými znaky nebo bity[cite: 2041, 2046].",
-            "Transpoziční šifry (Rail Fence, Columnar) mění pořadí znaků v textu, aniž by je nahrazovaly[cite: 2065, 2667].",
-            "Moderní standard AES (Advanced Encryption Standard) pracuje s datovými bloky (např. 128 bitů)[cite: 2078, 2577].",
+            "Symetrické šifrování využívá jeden tajný klíč sdílený oběma stranami pro šifrování i dešifrování.",
+            "Substituční šifry (Caesar, Vigenère, Vernam) nahrazují znaky jinými znaky nebo bity.",
+            "Transpoziční šifry (Rail Fence, Columnar) mění pořadí znaků v textu, aniž by je nahrazovaly.",
+            "Moderní standard AES (Advanced Encryption Standard) pracuje s datovými bloky (např. 128 bitů).",
             "Výhodou je vysoká rychlost; nevýhodou je nutnost bezpečného doručení klíče k oběm stranám."
         ],
         tip: "Zmiňte Vernamovu šifru (One-time pad) jako jedinou matematicky neprolomitelnou šifru (při splnění podmínek)."
@@ -400,10 +400,10 @@ const topics = [
     {
         title: "33. Asymetrické šifrování",
         points: [
-            "Asymetrické šifrování (kryptografie s veřejným klíčem) využívá dvojici matematicky svázaných klíčů: veřejný a soukromý[cite: 2172, 2176].",
-            "Veřejný klíč (Public Key) slouží k šifrování, Soukromý klíč (Secret Key) k dešifrování; soukromý klíč nelze odvodit z veřejného[cite: 2180, 2182].",
-            "Mezi hlavní standardy patří RSA, ECC (Eliptické křivky) a Diffie-Hellman pro výměnu klíčů[cite: 2195, 2196].",
-            "Používá se pro bezpečný přenos klíčů pro symetrické šifrování a pro digitální podpisy[cite: 2176].",
+            "Asymetrické šifrování (kryptografie s veřejným klíčem) využívá dvojici matematicky svázaných klíčů: veřejný a soukromý.",
+            "Veřejný klíč (Public Key) slouží k šifrování, Soukromý klíč (Secret Key) k dešifrování; soukromý klíč nelze odvodit z veřejného, .",
+            "Mezi hlavní standardy patří RSA, ECC (Eliptické křivky) a Diffie-Hellman pro výměnu klíčů.",
+            "Používá se pro bezpečný přenos klíčů pro symetrické šifrování a pro digitální podpisy.",
             "Je výpočetně náročnější než symetrické šifrování, proto se v praxi často používají hybridní systémy."
         ],
         tip: "Uveďte princip: Pokud chci poslat zprávu Petrovi, zašifruji ji jeho veřejným klíčem. Jen Petr ji může svým soukromým klíčem přečíst."
@@ -411,8 +411,8 @@ const topics = [
     {
         title: "34. Digitální podpis, hash",
         points: [
-            "Hashovací funkce (MD5, SHA1, SHA2) vytvoří z libovolně velkých dat unikátní otisk (hash) fixní délky[cite: 2013, 2206].",
-            "Slouží k ověření integrity dat – jakákoliv změna v datech způsobí výraznou změnu výsledného hashe[cite: 2207, 2208].",
+            "Hashovací funkce (MD5, SHA1, SHA2) vytvoří z libovolně velkých dat unikátní otisk (hash) fixní délky.",
+            "Slouží k ověření integrity dat – jakákoliv změna v datech způsobí výraznou změnu výsledného hashe.",
             "Digitální podpis kombinuje hash zprávy s asymetrickým šifrováním (zašifrováno soukromým klíčem odesílatele).",
             "Zaručuje nejen integritu (zpráva se nezměnila), ale i autenticitu (vím, kdo ji podepsal) a nepopiratelnost.",
             "Certifikační autority potvrzují vazbu mezi identitou subjektu a jeho veřejným klíčem."
