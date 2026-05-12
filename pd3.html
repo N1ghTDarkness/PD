@@ -122,9 +122,15 @@ function renderQuiz() {
     const c = document.getElementById('quiz'); c.innerHTML = "";
     data.forEach((d, i) => {
         let card = document.createElement('div'); card.className = 'q-card'; card.id = `qcard-${i}`;
-        let inputHtml = d.type === 'choice' 
-            ? d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="radio" name="q${i}" value="${oi}"><span>${String.fromCharCode(65+oi)}. ${o}</span></label>`).join('')
-            : `<input type="text" class="text-input" id="in-${i}" placeholder="Odpověď...">`;
+        let inputHtml = "";
+        
+        if (d.type === 'choice') {
+            inputHtml = d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="radio" name="q${i}" value="${oi}"><span>${String.fromCharCode(65+oi)}. ${o}</span></label>`).join('');
+        } else if (d.type === 'multi') {
+            inputHtml = d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="checkbox" name="q${i}" value="${oi}"><span>${String.fromCharCode(65+oi)}. ${o}</span></label>`).join('');
+        } else {
+            inputHtml = `<input type="text" class="text-input" id="in-${i}" placeholder="Odpověď...">`;
+        }
 
         card.innerHTML = `
             <div class="q-header">
@@ -136,10 +142,8 @@ function renderQuiz() {
             <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT</button>
             <div class="action-btns">
                 <button class="hint-btn" onclick="toggle('hint-${i}')">Nápověda / Postup</button>
-                ${d.proc ? `<button class="proc-btn" onclick="toggle('proc-${i}')">Obrázek</button>` : ''}
             </div>
             <div id="hint-${i}" class="hint-box">💡 ${d.hint}</div>
-            <div id="proc-${i}" class="proc-box">Postup výpočtu: <br><img src="${d.proc}" alt="Postup" style="max-width: 100%; height: auto; margin-top: 10px; border-radius: 8px;"></div>
             <div id="feed-${i}" class="points-feedback"></div>
         `;
         c.appendChild(card);

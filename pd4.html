@@ -122,100 +122,107 @@ const master = [
 let data = [], curScore = 0, maxPosScore = 0, solved = 0;
 
 function start() {
-    const qS = document.getElementById('shufQ').checked, aS = document.getElementById('shufA').checked;
     data = JSON.parse(JSON.stringify(master));
-    if(qS) data.sort(() => Math.random() - 0.5);
-    if(aS) data.forEach(d => {
-        let os = d.opts.map((o,i) => ({t:o, c:d.ans.includes(i)}));
-        os.sort(() => Math.random() - 0.5);
-        d.opts = os.map(o => o.t); d.ans = os.reduce((a,o,i) => {if(o.c) a.push(i); return a;}, []);
-    });
     document.getElementById('setup').style.display = 'none';
-    renderNav(); renderQuiz();
+    renderNav(); 
+    renderQuiz();
 }
 
 function renderNav() {
-    const g = document.getElementById('navGrid');
+    const g = document.getElementById('navGrid'); g.innerHTML = "";
     data.forEach((_, i) => {
-        let d = document.createElement('div');
-        d.className = 'nav-item'; d.id = `nav-${i}`;
-        d.innerText = i + 1;
-        d.onclick = () => document.getElementById(`qcard-${i}`).scrollIntoView({behavior:'smooth'});
+        let d = document.createElement('div'); d.className = 'nav-item'; d.id = `nav-${i}`;
+        d.innerText = i + 1; d.onclick = () => document.getElementById(`qcard-${i}`).scrollIntoView({behavior:'smooth'});
         g.appendChild(d);
     });
 }
 
 function renderQuiz() {
-    const c = document.getElementById('quiz');
+    const c = document.getElementById('quiz'); c.innerHTML = "";
     data.forEach((d, i) => {
-        let isM = d.ans.length > 1;
-        let card = document.createElement('div');
-        card.className = 'q-card'; card.id = `qcard-${i}`;
+        let card = document.createElement('div'); card.className = 'q-card'; card.id = `qcard-${i}`;
+        let inputHtml = d.type === 'choice' 
+            ? d.opts.map((o,oi) => `<label class="opt-label" id="label-${i}-${oi}"><input type="radio" name="q${i}" value="${oi}"><span>${String.fromCharCode(65+oi)}. ${o}</span></label>`).join('')
+            : `<input type="text" class="text-input" id="in-${i}" placeholder="Odpověď...">`;
+
         card.innerHTML = `
             <div class="q-header">
-                <div class="q-id-box">
-                    <span class="blue-sq-icon" id="sq-${i}" onclick="toggleSquare(${i})"></span>
-                    <span id="num-display-${i}" style="font-weight:bold">${i+1}</span>
-                    <span style="color:#666; margin-left:10px">ID ${d.id}</span>
-                </div>
-                <div style="color:var(--primary); font-weight:bold">${d.pts} b</div>
+                <div><span class="blue-sq-icon" id="sq-${i}" onclick="toggleSquare(${i})"></span> <strong>Úloha ${i+1}</strong></div>
+                <div style="color:var(--primary); font-weight:bold">${d.pts.toFixed(1)} b</div>
             </div>
-            <div style="margin-bottom:25px; line-height:1.4">${d.q}</div>
-            <div id="opts-${i}">
-                ${d.opts.map((o,oi) => `<label class="opt-label"><input type="${isM?'checkbox':'radio'}" name="q${i}" value="${oi}"><span>${o}</span></label>`).join('')}
-            </div>
+            <div style="margin-bottom:20px">${d.q}</div>
+            <div id="field-${i}">${inputHtml}</div>
             <button class="check-btn" id="btn-${i}" onclick="check(${i})">ODEVZDAT ÚLOHU</button>
-            <div id="feedback-${i}" class="points-feedback"></div>
+            <div class="action-btns">
+                <button class="hint-btn" onclick="toggle('hint-${i}')">Nápověda / Postup</button>
+            </div>
+            <div id="hint-${i}" class="hint-box">💡 ${d.hint}</div>
+            <div id="feed-${i}" class="points-feedback"></div>
         `;
         c.appendChild(card);
     });
 }
 
-function toggleSquare(i) {
-    const icon = document.getElementById(`sq-${i}`);
-    const navItem = document.getElementById(`nav-${i}`);
-    const numDisplay = document.getElementById(`num-display-${i}`);
-    icon.classList.toggle('active');
-    navItem.classList.toggle('flagged');
-    const isAct = icon.classList.contains('active');
-    navItem.innerText = isAct ? '?' : i + 1;
-    numDisplay.innerText = isAct ? '?' : i + 1;
-}
+function toggle(id) { let e = document.getElementById(id); e.style.display = e.style.display === 'block' ? 'none' : 'block'; }
+function toggleSquare(i) { document.getElementById(`sq-${i}`).classList.toggle('active'); document.getElementById(`nav-${i}`).classList.toggle('flagged'); }
 
 function check(i) {
-    const d = data[i], block = document.getElementById(`opts-${i}`);
-    const sel = Array.from(block.querySelectorAll('input:checked')).map(n => parseInt(n.value));
-    if(!sel.length) return alert("Musíte vybrat odpověď!");
-
-    document.getElementById(`btn-${i}`).disabled = true;
-    block.querySelectorAll('input').forEach(inp => inp.disabled = true);
-
-    let correctCount = 0, wrongCount = 0;
-    d.ans.forEach(a => { if(sel.includes(a)) correctCount++; });
-    sel.forEach(s => { if(!d.ans.includes(s)) wrongCount++; });
-
-    let gain = (correctCount - wrongCount) * (d.pts / d.ans.length);
-    if(gain < 0) gain = 0;
+    const d = data[i], btn = document.getElementById(`btn-${i}`);
+    if(btn.disabled) return;
     
-    curScore += gain; maxPosScore += d.pts; solved++;
+    let isCorrect = false;
+    let feedbackText = "";
+    
+    if(d.type === 'choice') {
+        const sel = document.querySelector(`input[name="q${i}"]:checked`);
+        if(!sel) return;
+        const selIdx = parseInt(sel.value);
+        isCorrect = d.ans.includes(selIdx);
+        d.opts.forEach((_, oi) => {
+            const lbl = document.getElementById(`label-${i}-${oi}`);
+            if(d.ans.includes(oi)) lbl.classList.add('correct');
+            else if(selIdx === oi) lbl.classList.add('wrong');
+        });
+        feedbackText = d.opts[d.ans[0]];
+    } else {
+        const input = document.getElementById(`in-${i}`);
+        let userVal = input.value.trim();
+        isCorrect = d.ans.some(a => {
+            let cleanA = a.toLowerCase().replace(/\s/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            let cleanU = userVal.toLowerCase().replace(/\s/g, '').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            return cleanA === cleanU;
+        });
+        input.disabled = true;
+        feedbackText = d.ans[0];
+    }
 
-    const feed = document.getElementById(`feedback-${i}`);
-    feed.style.display = 'block';
-    feed.innerHTML = `Získáno ${gain.toFixed(2)} z ${d.pts} b. <div class="hint-box"><strong>Odůvodnění:</strong> ${d.rationale}</div>`;
-    feed.style.background = (gain >= d.pts * 0.99) ? '#e6f4ea' : gain > 0 ? '#fff4e5' : '#fce8e6';
+    btn.disabled = true;
+    if(isCorrect) curScore += d.pts;
+    maxPosScore += d.pts; solved++;
+    
+    const f = document.getElementById(`feed-${i}`);
+    f.style.display = 'block';
+    if (isCorrect) {
+        f.innerHTML = "✓ Správně! (+ " + d.pts.toFixed(1) + " b)";
+        f.style.color = 'var(--success)';
+        f.style.background = '#e6f4ea';
+    } else {
+        f.innerHTML = "✗ Chyba! Správná odpověď: <b>" + feedbackText + "</b>";
+        f.style.color = 'var(--error)';
+        f.style.background = '#fce8e6';
+    }
+    
+    document.getElementById(`nav-${i}`).classList.add(isCorrect ? 'status-green' : 'status-red');
+    updateStats();
+}
 
-    let nav = document.getElementById(`nav-${i}`);
-    if(gain >= d.pts * 0.99) nav.classList.add('status-green');
-    else if(gain > 0) nav.classList.add('status-orange');
-    else nav.classList.add('status-red');
-
-    block.querySelectorAll('.opt-label').forEach((l, oi) => {
-        if(d.ans.includes(oi)) l.classList.add('correct');
-        else if(sel.includes(oi)) l.classList.add('wrong');
-    });
-
+function updateStats() {
     document.getElementById('prog').innerText = `Zodpovězeno: ${solved} / ${data.length}`;
     document.getElementById('score').innerText = `Body: ${curScore.toFixed(2)} / ${maxPosScore.toFixed(2)}`;
+}
+
+function finishAll() {
+    data.forEach((_, i) => { if(!document.getElementById(`btn-${i}`).disabled) check(i); });
 }
 </script>
 </body>
